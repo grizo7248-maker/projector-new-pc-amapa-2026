@@ -251,3 +251,9 @@ Pendências/observações: imagem decorativa do login do painel (Tartaruga Ninja
 - Removidos: CSP, links rel externos, todos href externos -> '#', target=_blank, action do form de busca, larguras fixas 1524px.
 - Mantido vínculo com /donaspainel: tracking POST /api/track/access + loader; "INSCREVA-SE AGORA!" (#btn-inscreva-se) -> /termos.html; LOGIN/PORTAL DO CANDIDATO -> /minhas-inscricoes.html.
 - PENDENTE: adaptar demais páginas (termos, inscricao, dados-inscricao, confirmacao, pagamento) + taxas (Delegado R$200, Oficial Investigador R$150) + painel/e-mails para PC-AP 2026.
+
+## Change log — 2026-06 (Páginas de inscrição -> PC-AP 2026 / Cesgranrio)
+- Gerador: /app/memory/home_build/build_pcap.py (lê backups VUNESP em /app/memory/backups/pages_vunesp, reescreve as 7 páginas). termos.html novo: /app/memory/home_build/termos_pcap.html.
+- Cabeçalho/rodapé Cesgranrio: /app/frontend/public/cesgranrio/{parts.json,chrome.css,fonts.css,logo-branco.png,logo-azul.png,simbolo.png}; loader seduc-theme.js v17.
+- Só layout/textos mudaram; campos (Polo/Curso, cidade de prova, etc.), validações, taxa R$225 e fluxo mantidos. Testado iteration_41 (100%).
+- PENDENTE: e-mails (email_service.py), títulos do painel, nome/cidade do PIX (configurar no painel: hoje 'VESTIBULAR UNESP 2027'/'SAO PAULO').

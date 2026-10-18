@@ -1,0 +1,26 @@
+{
+  "summary": "Frontend E2E for the Cesgranrio / PC-AP rebrand. Desktop 1920: home -> #btn-inscreva-se -> termos (Continuar stays blocked until #termos is checked) -> inscricao -> dados-inscricao -> confirmacao (success modal) -> inscricao-realizada (R$ 225,00, PENDENTE) -> pagamento-pix (QR visible, 158-char copia-e-cola) -> minhas-inscricoes all PASS. Fields and dropdowns work as before: estado civil options, VAGA disabled until POLO is picked, then filtered by polo; municipio prova; Cadastrar disabled until termo is checked; doc uploads. No 'Vestibular Unesp'/'VUNESP'/'Unesp' in body innerText on any page. The PC-AP title and subtitle are present. Home has no external http links. Mobile 390: no horizontal overflow on all 8 pages; the hamburger (shadow DOM .vn-burger) opens a MINHAS INSCRIÇÕES button on realizada/pix/minhas. Admin /api/admin/inscriptions listed the new registration (concurso='Concurso Polícia Civil do Amapá 2026 - Cesgranrio', edital 'PC-AP 2026'). The test record was then deleted.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "pagamento-pix", "issues": ["The Pix copia-e-cola textarea visibly shows merchant name 'VESTIBULAR UNESP 2027'. This comes from the admin DB settings and is marked out of scope, but the user can see it. Suggest updating the admin Pix merchant name."]},
+      {"screen": "confirmacao header", "issues": ["The right header button reads 'ÁREA DO CANDIDATO' (outlined). On realizada/pix/minhas it is a solid 'MINHAS INSCRIÇÕES' button. Minor inconsistency."]},
+      {"screen": "mobile hamburger menu", "issues": ["The MINHAS INSCRIÇÕES dropdown is a white popover at y=66-116. The cyan bar ends at about y=94, so the popover sticks out slightly below the bar instead of sitting fully inside it. Acceptable, but not strictly 'inside the cyan bar'."]},
+      {"screen": "dados-inscricao", "issues": ["Cotas labels still cite SP laws (Lei Estadual 17.432/2021 and 17.433/2021) and the polo/curso/municipio lists are Unesp/SP. This is intentional per the rule to keep the form config, but the content does not fit PC-AP."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: change the Pix merchant name in the admin settings (currently 'VESTIBULAR UNESP')",
+    "Optional: make the confirmacao header button match the other pages"
+  ],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "Test inscription CPF 45645371801 (TEST CANDIDATO PCAP) was created, then its inscription was deleted via the admin API. The cadastros record may remain.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "The flow works with a generated valid CPF, CEP 01310100 (fill the address by hand if autofill is empty), DOC_TIPO=RG and 1x1 PNG uploads. Header and footer live in shadow DOM (#seduc-header-host, #vunesp-footer-host). Never call the lembrete-pagamento POST."
+}
