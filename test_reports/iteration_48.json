@@ -1,0 +1,17 @@
+{
+  "summary": "Checked the Amapá law text and the removal of old branding (Unesp/VUNESP/Cebraspe/São Paulo). Backend pytest: 29/29 passed (test_amapa_legacy_cleanup.py + test_cargo_pcap.py). E2E desktop flow passed: termos -> inscricao -> dados -> confirmacao -> inscricao-realizada -> pagamento-pix. Cargo 1 shows R$ 200,00 and the Pix code has 5406200.00, 'CONCURSO PC AP 2026' and 'MACAPA AP'. Both reserva questions show the TJAP / art. 4º parágrafo único Lei Estadual nº 066/1993 text on dados and confirmacao; '17.432' and '17.433' are gone. On the 5 pages, none of the elements #Topo, #TopoMobile, #TopMenu, #Rodape, #__fgv_topbar, #__fgv_footer, #__cebraspe_footer_root or .bgConcurso exist in the live DOM. Page HTML, innerText and title of all public pages and /donaspainel contain no banned strings. Grep of public/, src/ and backend/*.py found none either. Admin login and dashboard work; the title is 'Concurso PC-AP 2026'. The email HTML has the new concurso name and 19/10/2026, with no VUNESP. Mobile (390px) has no horizontal overflow and the Cesgranrio header and footer render.",
+  "backend_issues": {"critical": [], "minor": [
+    {"endpoint": "/api/admin/inscriptions (data)", "issue": "One old DB record (cpf 84848154049, 'JOÃO SILVA SANTS') still has concurso='Vestibular Unesp 2027 - Fundação VUNESP' and edital='014/2026-SEDUC/SEPLAG'. It is not in the dashboard text but appears in the API response and possibly in the Inscrições detail view. Delete it or migrate it if the user wants no trace of the old project."},
+    {"endpoint": "DELETE /api/admin/cadastros/{cpf}", "issue": "Removes the cadastro but not the matching inscriptions; they must be deleted separately via DELETE /api/admin/inscriptions/{id}."}
+  ]},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": ["/app/backend/tests/test_amapa_legacy_cleanup.py", "/app/backend/tests/test_cargo_pcap.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": ["Optional: delete or migrate the old inscription record 680a8ad5-5268-48b2-9375-228d8dee8e0e (Vestibular Unesp concurso/SEDUC edital)"],
+  "critical_code_review_comments": ["Inline CSS still has an unused .bgConcurso rule and <style id='__fgv_*'> ids. They are not visible to users; removing them is optional cleanup."],
+  "updated_files": ["/app/backend/tests/test_amapa_legacy_cleanup.py"],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "Test records for CPF 52998224725 and 11144477735 were created and then deleted (cadastros and inscriptions). The 'DONAS TESTANDO' record was left untouched.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Use domcontentloaded, not networkidle, because the site polls. The termos buttons are data-testid btn-inscrever-delegado and btn-inscrever-investigador. Deleting a cadastro does not delete its inscriptions; also call DELETE /api/admin/inscriptions/{id}."
+}

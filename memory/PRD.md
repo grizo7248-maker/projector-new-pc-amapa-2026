@@ -270,3 +270,4 @@ Pendências/observações: imagem decorativa do login do painel (Tartaruga Ninja
 - Páginas do fluxo usam cabeçalho branco + rodapé azul #223874 iguais aos de termos (parts.json/chrome.css em /cesgranrio, loader v18). iteration_46.
 - Botão topo da home 'INSCREVA-SE AGORA!' (#btn-inscreva-se-topo) -> termos.
 - 2026-06: Cidade de prova única MACAPÁ/AP (UF_PROVA=AP, pré-selecionada; confirmacao mostra Amapá). iteration_47.
+- 2026-06: Reserva de vagas: negros -> decisão TJAP; PcD -> art. 4º, par. único, Lei Estadual nº 066/1993. Removidos blocos legados ocultos (Topo/Rodape/fgv/cebraspe), arquivos públicos antigos (movidos p/ /app/memory/backups/legacy_public), pasta /vunesp (pages.css agora em /cesgranrio). E-mails, painel, Pix (CONCURSO PC AP 2026 / MACAPA AP) e Telegram sem Unesp. Registros antigos migrados. iteration_48 100%.
