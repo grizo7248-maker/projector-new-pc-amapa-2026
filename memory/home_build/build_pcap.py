@@ -53,6 +53,7 @@ open(CG + '/chrome.css', 'w', encoding='utf-8').write(css)
 js = open(BK + '/seduc-theme.js', encoding='utf-8').read()
 js = js.replace("var V='16';", "var V='17';").replace('/vunesp/fonts.css', '/cesgranrio/fonts.css').replace('/vunesp/chrome.css', '/cesgranrio/chrome.css').replace('/vunesp/parts.json', '/cesgranrio/parts.json')
 js = js.replace('.vn-minhas-box{position:absolute;right:15px;top:50%;', '.vn-minhas-box{position:absolute;right:15px;top:50%;')
+js = js.replace("vunesp-footer-host", "cg-footer-host")
 js = js.replace("if(MINHAS){hh=hh.replace(", "if(!MINHAS){hh=hh.replace('<a href=# title=\"Área do Candidato\">','<a href=\"/minhas-inscricoes.html\" title=\"Área do Candidato\">');}if(MINHAS){hh=hh.replace(", 1)
 js = js.replace('font-family:"Open Sans",Helvetica,Arial,sans-serif;font-size:14px', 'font-family:Roboto,Helvetica,Arial,sans-serif;font-size:14px').replace("var V='17';", "var V='18';")
 open(PUB + '/seduc/seduc-theme.js', 'w', encoding='utf-8').write(js)
@@ -64,7 +65,7 @@ for a, b in [('#31708f', '#18295a'), ('#d9534f', '#0aa0de'), ('#c9302c', '#0889b
              ('"Helvetica Neue",Helvetica,Arial,sans-serif', 'Montserrat,"Helvetica Neue",Arial,sans-serif')]:
     pc = pc.replace(a, b)
 pc += '\nhtml body:not(#vn_a):not(#vn_b) .aocp-edital-card .aec-head h3,html body:not(#vn_a):not(#vn_b) .wrap .card .edhead h3{color:#18295a!important;font-weight:600!important}\nhtml body:not(#vn_a):not(#vn_b) .vn-sub{color:#0aa0de!important}\n'
-open(PUB + '/vunesp/pages.css', 'w', encoding='utf-8').write(pc)
+open(PUB + '/cesgranrio/pages.css', 'w', encoding='utf-8').write(pc)
 open(HB + '/pages.css', 'w', encoding='utf-8').write(pc)
 
 REPL = [
@@ -82,15 +83,32 @@ REPL = [
     ('VNSP2514', 'PC-AP 2026'),
     ('fins deste vestibular', 'fins deste concurso'),
     ('concursos pï¿½blicos, vestibular', 'concursos públicos'),
-    ('/vunesp/pages.css?v=8', '/vunesp/pages.css?v=9'),
+    ('/vunesp/pages.css?v=8', '/cesgranrio/pages.css?v=10'),
     ('/seduc/seduc-theme.js?v=16', '/seduc/seduc-theme.js?v=18'),
     ('border-top-color:#d9534f;', 'border-top-color:#0aa0de;'),
 ]
+def cut_el(t, eid):
+    m = re.search(r'<(\w+)\b[^>]*\b(?:id="%s"|class="%s")[^>]*>' % (re.escape(eid), re.escape(eid)), t)
+    if not m:
+        return t
+    tag = m.group(1); depth = 0
+    for mm in re.finditer(r'<(/?)%s\b[^>]*>' % tag, t[m.start():]):
+        depth += -1 if mm.group(1) else 1
+        if depth == 0:
+            return t[:m.start()] + t[m.start() + mm.end():]
+    return t
+LEGACY = ['__fgv_topbar', 'TopoMobile', 'TopMenu', 'Topo', 'bgConcurso', 'Rodape', '__fgv_footer', '__cebraspe_footer_root']
 for p in ['inscricao.html', 'dados-inscricao.html', 'confirmacao.html', 'inscricao-realizada.html', 'pagamento-pix.html', 'minhas-inscricoes.html']:
     t = open(BK + '/' + p, encoding='utf-8').read()
     for a, b in REPL:
         t = t.replace(a, b)
     t = re.sub(r'<link rel="shortcut icon" href="data:[^"]*"[^>]*>', '<link rel="shortcut icon" href="/cesgranrio/simbolo.png" type="image/png">', t)
+    for eid in LEGACY:
+        t = cut_el(t, eid)
+    t = re.sub(r'(<style[^>]*>)(.*?)(</style>)', lambda m: m.group(1) + re.sub(r'/\*.*?\*/', '', m.group(2), flags=re.S) + m.group(3), t, flags=re.S)
+    t = t.replace('a reserva de vagas prevista na Lei Estadual nº 17.432/2021 para pessoas negras', 'a reserva de vagas para pessoas negras, nos termos da decisão do Tribunal de Justiça do Estado do Amapá')
+    t = t.replace('a reserva de vagas previstas na Lei Estadual nº 17.433/2021 para pessoas com deficiência', 'a reserva de vagas prevista no art. 4º, parágrafo único, da Lei Estadual nº 066/1993 para pessoas com deficiência')
+    t = t.replace('a reserva de vagas prevista na Lei Estadual nº 17.433/2021 para pessoas com deficiência', 'a reserva de vagas prevista no art. 4º, parágrafo único, da Lei Estadual nº 066/1993 para pessoas com deficiência')
     t = t.replace('Curso Escolhido', 'Cargo Escolhido').replace('<span class="k">Curso</span>', '<span class="k">Cargo</span>')
     if p == 'dados-inscricao.html':
         a0 = t.index('<div class="fgv-field"><label><span class="error">*</span> Polo universitário (cidade)</label>')

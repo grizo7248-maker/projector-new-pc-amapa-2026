@@ -33,7 +33,7 @@ function build(parts){
  var r=host('seduc-header-host',hh,true,'header{position:relative}'+(MINHAS?'.social,.socialmedia-item{display:none!important}':''));
  if(MINHAS){var bg=r.querySelector('.vn-burger'),dr=r.querySelector('.vn-drop');if(bg&&dr){r.appendChild(dr);bg.addEventListener('click',function(e){e.stopPropagation();var o=dr.classList.toggle('open');bg.setAttribute('aria-expanded',o?'true':'false');});document.addEventListener('click',function(){dr.classList.remove('open');bg.setAttribute('aria-expanded','false');});}}
  document.querySelectorAll('#aocp-footer,.seduc-footer').forEach(function(el){el.remove();});
- host('vunesp-footer-host',parts.f,false,'#rodape{margin-top:40px}');
+ host('cg-footer-host',parts.f,false,'#rodape{margin-top:40px}');
 }
 function go(){
  fetch('/cesgranrio/parts.json?v='+V).then(function(r){return r.json();}).then(build).catch(function(){document.documentElement.classList.remove('vn-wait');});

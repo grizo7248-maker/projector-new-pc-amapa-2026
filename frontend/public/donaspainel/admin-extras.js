@@ -1,5 +1,5 @@
 /* ============================================================
-   Painel Admin — extras (Vestibular Unesp 2027)
+   Painel Admin — extras (Concurso PC-AP 2026)
    Adiciona um botão "Limpar Cadastros" na página /donaspainel/cadastro
    sem precisar mexer no build React.
    ============================================================ */
