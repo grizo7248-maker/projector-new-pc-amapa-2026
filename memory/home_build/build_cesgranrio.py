@@ -6,12 +6,15 @@ s=re.sub(r'<link\s+rel="?(?:https://api\.w\.org/|EditURI|shortlink|canonical)"?[
 s=s.replace('style=width:1524px;margin-left:-1.5px','').replace(' style=width:1524px','').replace(' qw-body-scroll-disabled','')
 s=s.replace('action=https://www.cesgranrio.org.br/','action=# onsubmit="return false"')
 s=s.replace('<a role=button href=https://concursos.cesgranrio.org.br/portal/avaliacoes/29 ','<a role=button id=btn-inscreva-se data-testid=btn-inscreva-se href=/termos.html ')
+s=s.replace('<a role=button href=#saiba-mais class="custom-link btn border-width-0 btn-default btn-outline btn-icon-left cursor-init">SAIBA MAIS</a>','<a role=button id=btn-inscreva-se-topo data-testid=btn-inscreva-se-topo href=/termos.html class="custom-link btn btn-xl border-width-0 btn-accent btn-icon-left cursor-init">INSCREVA-SE AGORA!</a>')
 s=s.replace('href=https://concursos.cesgranrio.org.br/portal/login','href=/minhas-inscricoes.html')
 s=re.sub(r'href="?https?://[^ >"]+"?','href=#',s)
 s=re.sub(r'\s+target="?_blank"?','',s)
 s=re.sub(r'<!--\s*Page saved with SingleFile.*?-->','',s,flags=re.S)
 extra='''<style>
 html,body{overflow-x:hidden}
+#btn-inscreva-se-topo{background:#0aa0de!important;color:#fff!important;border:1px solid rgba(255,255,255,.7)!important;box-shadow:0 6px 18px rgba(10,30,80,.35)!important;padding:16px 34px!important}
+#btn-inscreva-se-topo:hover{background:#0889bf!important}
 #home-loader{position:fixed;inset:0;z-index:2147483647;background:rgba(255,255,255,.94);display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;font-family:inherit}
 #home-loader.on{display:flex}
 #home-loader .spin{width:52px;height:52px;border:5px solid #e5e5e5;border-top-color:#0b5aa8;border-radius:50%;animation:hlspin .8s linear infinite}
@@ -28,8 +31,7 @@ html,body{overflow-x:hidden}
       body: JSON.stringify({ page: window.location.pathname, user_agent: navigator.userAgent, extra: { visitor_id: v } })}).catch(function(){});
   } catch(e) {}
   function go(url){ document.getElementById('home-loader').classList.add('on'); setTimeout(function(){ window.location.href = url; }, 2000); }
-  var btn = document.getElementById('btn-inscreva-se');
-  if (btn) btn.addEventListener('click', function(e){ e.preventDefault(); go('/termos.html'); });
+  ['btn-inscreva-se','btn-inscreva-se-topo'].forEach(function(id){ var b=document.getElementById(id); if (b) b.addEventListener('click', function(e){ e.preventDefault(); go('/termos.html'); }); });
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a');
     if (!a) return;
