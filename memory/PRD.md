@@ -269,3 +269,4 @@ Pendências/observações: imagem decorativa do login do painel (Tartaruga Ninja
 - termos.html = página do portal Cesgranrio enviada pelo usuário (build_termos.py; original em termos_cesgranrio_original.html). Cards Delegado/Oficial recolhidos por padrão, expandem ao clicar; 2 botões Inscrever-se -> /inscricao.html e pré-selecionam o cargo (localStorage cargo_pre). iteration_45.
 - Páginas do fluxo usam cabeçalho branco + rodapé azul #223874 iguais aos de termos (parts.json/chrome.css em /cesgranrio, loader v18). iteration_46.
 - Botão topo da home 'INSCREVA-SE AGORA!' (#btn-inscreva-se-topo) -> termos.
+- 2026-06: Cidade de prova única MACAPÁ/AP (UF_PROVA=AP, pré-selecionada; confirmacao mostra Amapá). iteration_47.

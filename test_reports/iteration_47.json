@@ -1,0 +1,27 @@
+{
+  "summary": "Frontend test of the Macapá/AP-only exam city change. Every requested check passed. 1) dados-inscricao: #MUNICIPIO_PROVA has exactly one option, value 'MACAPA/AP' with text 'MACAPÁ', and it is preselected. Hidden #UF_PROVA is 'AP'. No '/SP', AMERICANA or SÃO PAULO text appears in the DOM. 2) Stale localStorage inscricao_dados {MUNICIPIO_PROVA:'AMERICANA/SP', UF_PROVA:'SP'}: after reload the select is still MACAPA/AP and UF_PROVA is AP. 3) Full flow at 390px: termos (Investigador) -> inscricao -> dados (VAGA 2, MACAPA/AP, AP) -> confirmacao (Estado da Prova 'Amapá', city 'MACAPA/AP', cargo 'OFICIAL INVESTIGADOR DE POLÍCIA CIVIL - R$ 150,00') -> inscricao-realizada (R$ 150,00, PENDENTE DE PAGAMENTO) -> pagamento-pix (R$ 150,00, name, cargo, QR code). scrollWidth was 390 on every page. Test records were deleted.",
+  "backend_issues": {"critical": [], "minor": [
+    {"endpoint": "inscription record", "issue": "The saved inscription has localidade='-', and no exam city/UF field is stored, so the admin panel cannot see the exam city. This does not matter much while there is only one city."}
+  ]},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "dados-inscricao", "issues": ["The reserva-de-vagas checkboxes cite 'Lei Estadual nº 17.432/2021' and '17.433/2021', which look like leftover SP laws. Check whether they should cite the Amapá legislation."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: replace the SP state-law references (17.432/2021, 17.433/2021) on dados-inscricao with the Amapá legislation.",
+    "Optional: save MUNICIPIO_PROVA/UF_PROVA (or localidade) on the inscription record."
+  ],
+  "critical_code_review_comments": [
+    "build_pcap.py syncUf: the fallback to MACAPA/AP runs only once, via setTimeout(300). If a late async restore set an invalid value after 300ms, the select would be left empty. It works today because the restore is synchronous. The single option is also marked selected, so the risk is low."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100% of requested checks"},
+  "seed_data_creation": "Created inscription CPF 691.795.938-36 'TEST_ T1 MACAPA'. Deleted via admin DELETE /api/admin/inscriptions/{id} and /api/admin/cadastros/{cpf}, plus Mongo cleanup (registrations 3, pix_generated 1).",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "On termos at 390px, the btn-inscrever-investigador click needs scroll_into_view_if_needed plus a normal click; force-click off-screen does not navigate. inscricao needs NOME, CPF, DATA_NASCIMENTO, SEXO, DOC_TIPO plus 2 files, CEP 68900-073 (autofill), NUMERO, CELULAR, EMAIL and #declaracao_veracidade. dados needs input[name=termo]."
+}
