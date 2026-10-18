@@ -1,0 +1,126 @@
+<analysis>**original_problem_statement**: 
+The user wanted to completely rebrand an existing public exam application template (previously configured for SEDUC CE) to a new context: Vestibular Unesp 2027 (Fundação VUNESP).
+PRODUCT REQUIREMENTS:
+- Overhaul all public-facing static pages (HTML/CSS) to match the VUNESP layout (colors, headers, footers, removing old SEDUC imagery/text).
+- Update the registration fee to R$ 225,00.
+- Update the form to include dynamic dropdowns mapping 25 Polos (cities) to 183 specific courses (Cursos), replacing the old Cargos list.
+- Add 35 exam cities to the dropdown.
+- Add specific demographic and educational questions to the registration form (Estado Civil, Tipo/Ano/UF do Ensino Médio, expanded Sexo options).
+- Add a new Enviar lembrete de pagamento feature to the Admin Panel () that triggers a mass email (via Resend) using a background task to all candidates with pending payments.
+- Ensure the Pix Pagar inscrição button in emails redirects dynamically with the user's CPF loaded.
+- Apply extensive CSS fixes for mobile responsiveness (hamburger menus, full-width fields, button positioning, FOUC prevention).
+
+**User's preferred language**: Portuguese (INSTRUCT NEXT AGENT: Você DEVE responder e interagir com o usuário exclusivamente em Português).
+
+**what currently exists?** 
+A full-stack registration platform for Vestibular Unesp 2027. The backend (FastAPI + MongoDB) handles registration saving, Pix payment code generation, and transactional/mass email dispatch (via Resend). The frontend is a React app utilizing  to serve custom static HTML files for the candidate flow. The admin panel () is injected with custom vanilla JS () to enrich tables and trigger mass background email tasks.
+
+**Last working item**:
+- Last item agent was working: The user asked if they could fork the current project to start a new, independent project using this Vestibular Unesp 2027 codebase as a structural base. The agent confirmed using the  tool and explained how to use the Fork feature.
+- Status: RESOLVED
+- Agent Testing Done: Y (Testing agent used on the previous bug fix)
+- Which testing method agent to use?: NA
+- User Testing Done: N
+
+**All Pending/In progress Issue list**: 
+No pending issues. All reported bugs and layout adjustments were successfully resolved in the current session.
+
+**In progress Task List**: 
+None.
+
+**Upcoming and Future Tasks**:
+None. The project is stable, fully tested, and the user is preparing to fork the environment to start a completely new project. 
+
+**Completed work in this session**:
+- Completely overhauled HTML/CSS on all public pages (, , , etc.) to VUNESP branding (DONE).
+- Updated registration fee to R$ 225,00 and implemented custom Pix email link generation (DONE).
+- Created dependent select dropdowns for 25 Polos and 183 Courses, storing options in  (DONE).
+- Added new form fields: Estado civil, Ensino médio details, expanded Sexo options (DONE).
+- Reorganized HTML blocks to group Dados da inscrição, Dados pessoais, Ensino médio, and Endereço logically (DONE).
+- Implemented Enviar lembrete de pagamento mass mailing via FastAPI asyncio background tasks tracking jobs in  collection (DONE).
+- Replaced header links with mobile-responsive hamburger menus on post-registration pages (DONE).
+- Fixed CSS spacing laterally to maximize screen width usage on mobile devices (DONE).
+- Fixed FOUC (Flash of Unstyled Content) by adding opacity transition via  and  (DONE).
+- Fixed a backend bug where mass emails failed because the  field was missing in ; updated  to migrate the email from  correctly (DONE).
+
+**Earlier issues found/mentioned but not fixed**:
+None.
+
+**Known issue recurrence from previous fork**:
+- Issue recurrence in previous fork: NA
+- Recurrence count: 0
+- Status: NA
+
+**Code Architecture**:
+- : FastAPI application ( for routing and jobs,  for Resend email formatting and dispatch,  for payment codes).
+- : React + CRA + Craco overriding static HTML routing.
+- : Static HTML pages acting as the main public interfaces (, , etc.).
+- : Vanilla JS injected into the React admin panel to add extra buttons, mass email UI, and modal styling.
+- Database: MongoDB.
+
+**Key Technical Concepts**:
+FastAPI, React CRA + Craco, MongoDB, Resend API integration, Asyncio (for non-blocking mass mailing), Vanilla DOM Manipulation (for injecting logic into static HTML and the React admin panel without rebuilding React components).
+
+**key DB schema**:
+- : Partial registration saves.
+- : Finalized registrations (). Includes , , , etc.
+- : Tracks background mass email tasks (fields: uid=0(root) gid=0(root) groups=0(root), , , , , , ).
+
+**changes in tech stack**:
+Introduced FastAPI  for background job execution to handle mass emails without timing out HTTP requests.
+
+**All files of reference**:
+- : Modified to include mass email endpoints (, ). Fixed  email capture.
+- : Contains Resend HTML templates with dynamic deadline logic and Pix link injection ().
+- : All candidate-facing pages updated to VUNESP theme.
+- : Enriched Admin UI with Enviar lembrete de pagamento polling logic and course mapping.
+- : Raw list of 183 courses parsed from user images.
+-  & : Styles to override legacy SEDUC green theme to VUNESP blue/gray.
+
+**Areas that need refactoring**:
+The static HTML file approach (, ) and the heavy Vanilla JS injection in  are highly coupled and getting large. However, this is INTENTIONAL to match the user's specific VPS Nginx architecture. DO NOT refactor this to pure React components unless explicitly asked by the user.
+
+**key api endpoints**:
+- : Tracks access and saves finalizing registration payloads.
+- : Triggers the background Resend email mass mailing job.
+- : Polls mass mailing status.
+
+**Critical Info for New Agent**:
+1. The user deploys this application on a VPS by using  from GitHub and running yarn run v1.22.22
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command. + restarting FastAPI. Do not break relative routing. 
+2. The user has explicitly complained about token/cost usage (tá gastando muito do meu saldo). Be extremely concise, avoid unnecessary multi-step reasoning thoughts, use parallel tool calls aggressively, and minimize screenshot debugging when simple CSS adjustments can be trusted.
+3. If the user initiates a new chat from this fork, start fresh based on their new prompt but respect the base architecture established here.
+
+**documents and test reports created in this job**:
+-  to  (Heavy usage of testing agent).
+-  (List of generated courses).
+
+**Last 10 User Messages and any pending HUMAN messages**:
+1. *User*: Asked to center/widen inputs on  for mobile. -> *Status: COMPLETED*
+2. *User*: Checkbox Declaro ciente was rendering weirdly next to text. Requested fixing for mobile. -> *Status: COMPLETED*
+3. *User*: Requested lateral widening of fields on  for mobile. -> *Status: COMPLETED*
+4. *User*: Requested lateral widening of fields on  for mobile. -> *Status: COMPLETED*
+5. *User*: Replaced header navigation with a hamburger menu for mobile on 3 post-registration pages. -> *Status: COMPLETED*
+6. *User*: Complained the hamburger menu wasn't showing the Minhas inscrições button upon click. -> *Status: COMPLETED*
+7. *User*: Widened fields on the final 3 pages for mobile. Confirmed menu works. -> *Status: COMPLETED*
+8. *User*: Reported a bug on the mass email reminder (nenhum inscrito despite table showing an inscription). -> *Status: COMPLETED (Fixed backend email capture from )*
+9. *User*: Asked if they can fork this project to a new chat to build another project on top of this structure without interfering here. -> *Status: COMPLETED (Agent answered using support agent)*
+
+**Project Health Check**:
+- Broken: None
+- Mocked: None
+
+**3rd Party Integrations**:
+- Resend (Emails) — requires User API Key (Key starts with  provided by user and saved in ).
+
+**Testing status**:
+- Testing agent used after significant changes: YES (Tested backend email logic and frontend forms in iteration 40)
+- Troubleshoot agent used after agent stuck in loop: NO
+- Test files created: 
+- Known regressions: None
+
+**Credentials to test flow**:
+- Admin Dashboard: Available at  (Default credentials seeded by backend locally).
+
+**What agent forgot to execute**:
+None. All requests were meticulously completed and verified.</analysis>

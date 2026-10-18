@@ -244,3 +244,10 @@ Pendências/observações: imagem decorativa do login do painel (Tartaruga Ninja
 - 2026-10: confirmacao.html: linhas reorganizadas em seções (Dados da inscrição, Dados pessoais, Ensino médio, Endereço, Contato, Documento) — mesmos ids; overlay de envio branco. Loader verde inscricao/dados -> branco. Declaração com fundo cinza+sombra, texto #333 normal. "Cidade de Aplicação da Prova".
 - 2026-10: E-mail Resend: nova chave no .env (RESEND_API_KEY), template no visual VUNESP (barra vermelha, logo 160px, botão vermelho Pagar inscrição). Botão abre /pagamento-pix.html?cpf=... que carrega dados via /api/inscricao/resumo/{cpf} em qualquer navegador e gera o QR Pix. Envio real testado (delivered@resend.dev ok).
 - 2026-10: Lembrete de pagamento em massa: endpoints GET /api/admin/inscricoes/lembrete-pagamento/resumo, POST /api/admin/inscricoes/lembrete-pagamento (asyncio task, 0.6s entre envios, coleção email_jobs), GET .../status/{job_id}. E-mail reutiliza build_inscricao_email_html(lembrete_prazo=hoje BRT). Botão verde no painel (admin-extras.js injectLembreteButton, data-testid btn-enviar-lembrete-pagamento) com confirm + polling 1.5s + alert final. Testado: job real com delivered@resend.dev (enviado 1/falha 0) e botão/confirm no painel.
+
+## Change log — 2026-06 (Novo concurso: Polícia Civil do Amapá 2026 – Cesgranrio)
+- Fork independente (banco Mongo local próprio deste ambiente; DB_NAME inalterado).
+- inicio.html substituída pela página Cesgranrio enviada pelo usuário. Gerador: /app/memory/home_build/build_cesgranrio.py (original em cesgranrio_original.html; backup VUNESP em inicio_vunesp_backup.html).
+- Removidos: CSP, links rel externos, todos href externos -> '#', target=_blank, action do form de busca, larguras fixas 1524px.
+- Mantido vínculo com /donaspainel: tracking POST /api/track/access + loader; "INSCREVA-SE AGORA!" (#btn-inscreva-se) -> /termos.html; LOGIN/PORTAL DO CANDIDATO -> /minhas-inscricoes.html.
+- PENDENTE: adaptar demais páginas (termos, inscricao, dados-inscricao, confirmacao, pagamento) + taxas (Delegado R$200, Oficial Investigador R$150) + painel/e-mails para PC-AP 2026.
