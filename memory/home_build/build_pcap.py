@@ -64,6 +64,7 @@ pc = open(BK + '/pages.css', encoding='utf-8').read()
 for a, b in [('#31708f', '#18295a'), ('#d9534f', '#0aa0de'), ('#c9302c', '#0889bf'), ('#ac2925', '#0779a8'), ('#1172db', '#0aa0de'),
              ('"Helvetica Neue",Helvetica,Arial,sans-serif', 'Montserrat,"Helvetica Neue",Arial,sans-serif')]:
     pc = pc.replace(a, b)
+pc += '\nhtml,html body,html body:not(#vn_a):not(#vn_b):not(#vn_c){background-color:#f2f2f2!important}'
 pc += '\nhtml body:not(#vn_a):not(#vn_b) .aocp-edital-card .aec-head h3,html body:not(#vn_a):not(#vn_b) .wrap .card .edhead h3{color:#18295a!important;font-weight:600!important}\nhtml body:not(#vn_a):not(#vn_b) .vn-sub{color:#0aa0de!important}\n'
 open(PUB + '/cesgranrio/pages.css', 'w', encoding='utf-8').write(pc)
 open(HB + '/pages.css', 'w', encoding='utf-8').write(pc)
@@ -83,7 +84,7 @@ REPL = [
     ('VNSP2514', 'PC-AP 2026'),
     ('fins deste vestibular', 'fins deste concurso'),
     ('concursos pï¿½blicos, vestibular', 'concursos públicos'),
-    ('/vunesp/pages.css?v=8', '/cesgranrio/pages.css?v=10'),
+    ('/vunesp/pages.css?v=8', '/cesgranrio/pages.css?v=11'),
     ('/seduc/seduc-theme.js?v=16', '/seduc/seduc-theme.js?v=18'),
     ('border-top-color:#d9534f;', 'border-top-color:#0aa0de;'),
 ]
