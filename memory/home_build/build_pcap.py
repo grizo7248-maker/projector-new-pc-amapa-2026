@@ -127,5 +127,5 @@ for p in ['inscricao.html', 'dados-inscricao.html', 'confirmacao.html', 'inscric
     open(PUB + '/' + p, 'w', encoding='utf-8').write(t)
     body = re.sub(r'data:[^"\')\s]{100,}', '', t)
     print(p, sorted(set(re.findall(r'(?i)vunesp(?!/pages)|unesp|vestibular', body))))
-shutil.copy(HB + '/termos_pcap.html', PUB + '/termos.html')
+import subprocess; subprocess.run(['python3', HB + '/build_termos.py'], check=True)
 print('ok')

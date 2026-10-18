@@ -8,6 +8,7 @@
 (function(){
   function init(){
     var vaga=document.getElementById('VAGA'); if(!vaga) return;
+    try{ var pre=localStorage.getItem('cargo_pre'); if(pre && vaga.querySelector('option[value="'+pre+'"]')){ vaga.value=pre; vaga.dispatchEvent(new Event('change',{bubbles:true})); localStorage.removeItem('cargo_pre'); return; } }catch(e){}
     try{ var s=JSON.parse(localStorage.getItem('inscricao_dados')||'{}')||{}; if(s.VAGA && vaga.querySelector('option[value="'+s.VAGA+'"]')){ vaga.value=String(s.VAGA); vaga.dispatchEvent(new Event('change',{bubbles:true})); } }catch(e){}
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();

@@ -1,0 +1,28 @@
+{
+  "summary": "Checked that the 4 questionnaire selects (Estado civil, Tipo de ensino médio, UF ensino médio, Ano ensino médio) are gone, using Playwright on desktop and mobile plus the admin API. inscricao.html: none of the 4 names are in the DOM, there is no fieldset.vn-quest, and the page has no 'estado civil' or 'ensino médio' text. The mobile layout at 390px is fine: no horizontal overflow and no empty fieldsets. The Continuar button enables once only the remaining required fields are filled. Full flow inscricao -> dados-inscricao (cargo 1 Delegado R$ 200,00) -> confirmacao -> inscricao-realizada -> pagamento-pix works, and the PIX page shows R$ 200,00 with the correct name and CPF. confirmacao.html has 5 sections (Dados da inscrição, Dados pessoais, Endereço, Contato, Documento de identificação) with 19 rows, all filled, 0 empty or dash rows, and no Estado civil or Ensino médio rows. In the admin /donaspainel Cadastro tab, the detail modal shows none of the 4 fields. Stored form_data has none of the 4 keys, and the export-full.txt export has no such labels. Test records were deleted afterwards.",
+  "backend_issues": {"critical": [], "minor": [
+    {"endpoint": "DELETE /api/admin/cadastros/{cpf}", "issue": "Uses delete_one, so when the same CPF has duplicate cadastros docs, only one is removed per call. Leftover CPF 45645371801 from an earlier iteration needed 2 calls to clear. Probably should be delete_many."}
+  ]},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Admin cadastro detail modal (admin-extras.js renderDocCard ~line 480)", "issue": "Shows 'Nenhum documento de identificação anexado' even when docs were uploaded. The backend stores form_data.doc_frente/doc_verso, but the modal reads docArquivoData/docArquivoVersoData. This was already broken before this change.", "selector": "[data-testid=modal-doc-empty]", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: map doc_frente/doc_verso into renderDocCard in admin-extras.js so the detail modal shows the uploaded ID images",
+    "Optional: use delete_many in DELETE /api/admin/cadastros/{cpf}"
+  ],
+  "critical_code_review_comments": [
+    "confirmacao.html section testids skip conf-sec-2 (0,1,3,4,5), a leftover from the removed Ensino médio section. Cosmetic only.",
+    "confirmacao.html still calls set('c-uf-prova') etc. for the existing rows. No orphan set() calls for the removed fields, so this is fine."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "Created TEST_REMOCAO QUEST (CPF 529.982.247-25), then deleted its inscription and cadastro. Also removed the leftover TEST CANDIDATO PCAP cadastro (CPF 456.453.718-01, 2 docs).",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Each browser_automation call starts with fresh localStorage, so run inscricao -> confirmacao in ONE script. The CEP lookup is async and overwrites the address fields: type the CEP first (01310100 works), wait about 5s, then fill the other fields. dados-inscricao needs VAGA + MUNICIPIO_PROVA + the input[name=termo] checkbox. After confirmar, the flow goes to /inscricao-realizada.html, and its 'Pagar inscrição' button leads to /pagamento-pix.html. Admin row actions: [data-testid=btn-exibir-cadastro] opens [data-testid=modal-detalhes-cadastro]."
+}
