@@ -41,6 +41,7 @@ De 2ª a 6ª feira de 09:00 às 17:00 (exceto feriados)</div></div></div></div><
 #home-loader p{margin:0;font-size:16px;color:#333;font-weight:600}
 @keyframes hlspin{to{transform:rotate(360deg)}}
 app-card-collapse .card-body{transition:height .25s ease}
+@media(max-width:767px){body{font-size:14px!important}.list-group-item{font-size:14px!important;padding:10px 16px!important}.card-title.titulo{font-size:19px!important}.badge{font-size:11px!important}.card-text,.evento-descricao p{font-size:13.5px!important;line-height:1.5!important}.card-header-titulo,.titulo-collapse{font-size:13.5px!important}app-card-collapse .btn{font-size:12px!important;padding:6px 10px!important}app-card-collapse .card-body,app-card-collapse .card-body p,app-card-collapse .card-body li{font-size:13.5px!important}#cg-cargos-mobile{margin:14px 0 6px}#cg-cargos-mobile app-card-collapse{display:block;margin-bottom:10px}}
 app-card-collapse .card-header{cursor:pointer}
 app-card-collapse .card-header-titulo i{display:inline-block;transition:transform .25s ease}
 app-card-collapse .card-header.expanded .card-header-titulo i{transform:rotate(180deg)}
@@ -60,6 +61,15 @@ html,body{overflow-x:hidden}
   document.querySelectorAll('a[data-cargo]').forEach(function(a){
     a.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); try{ localStorage.setItem('cargo_pre', a.getAttribute('data-cargo')); }catch(x){} go('/inscricao.html'); });
   });
+  if (window.matchMedia('(max-width: 767px)').matches) {
+    var lg = document.querySelector('.list-group'), cards = document.querySelectorAll('app-card-collapse');
+    if (lg && cards.length) {
+      var anchor = lg.closest('.card') || lg, box = document.createElement('div');
+      box.id = 'cg-cargos-mobile'; box.setAttribute('data-testid','cargos-mobile');
+      cards.forEach(function(c){ box.appendChild(c); });
+      anchor.parentNode.insertBefore(box, anchor.nextSibling);
+    }
+  }
   document.querySelectorAll('app-card-collapse').forEach(function(c, i){
     var h=c.querySelector('.card-header'), b=c.querySelector('.card-body'), ic=h && h.querySelector('.card-header-titulo i');
     if(!h||!b) return;
