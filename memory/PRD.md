@@ -257,3 +257,9 @@ Pendências/observações: imagem decorativa do login do painel (Tartaruga Ninja
 - Cabeçalho/rodapé Cesgranrio: /app/frontend/public/cesgranrio/{parts.json,chrome.css,fonts.css,logo-branco.png,logo-azul.png,simbolo.png}; loader seduc-theme.js v17.
 - Só layout/textos mudaram; campos (Polo/Curso, cidade de prova, etc.), validações, taxa R$225 e fluxo mantidos. Testado iteration_41 (100%).
 - PENDENTE: e-mails (email_service.py), títulos do painel, nome/cidade do PIX (configurar no painel: hoje 'VESTIBULAR UNESP 2027'/'SAO PAULO').
+
+## Change log — 2026-06 (Cargos e taxas PC-AP)
+- Campo Polo removido; #VAGA agora = Cargo: 1 DELEGADO DE POLÍCIA CIVIL (R$200), 2 OFICIAL INVESTIGADOR DE POLÍCIA CIVIL (R$150). Bloco: /app/memory/home_build/cargo_pcap.html (aplicado por build_pcap.py).
+- Backend: CARGOS_VALOR + valor_cargo()/taxa_fmt() em admin_routes.py; Pix, inscrição, resumo, tabela admin e Telegram usam valor por cargo. Labels 'Curso' -> 'Cargo' (páginas, admin-extras, e-mails).
+- Testado iteration_42 (100% back/front).
+- PENDENTE: cidades de prova do Amapá (usuário vai enviar); nome/cidade do Pix no painel; e-mails/títulos do painel.

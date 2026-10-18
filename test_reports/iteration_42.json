@@ -1,0 +1,24 @@
+{
+  "summary": "Tested the PC-AP cargo/fee change. Backend: 7/7 pytest pass. /api/pix/generate returns valor 200 for cargo_codigo '1' and '01' and 150 for '2', and the BRCode contains 5406200.00 or 5406150.00. With cpf only, it falls back to the cargo of the inscription. /api/track/registration stores valor and taxa per cargo; the valor sent by the client is ignored. /api/inscricao/resumo/{cpf} and /api/admin/inscriptions return 200 or 150 correctly. Frontend E2E at 1920px for both cargos: termos -> inscricao -> dados-inscricao -> confirmacao -> inscricao-realizada -> pagamento-pix -> minhas-inscricoes. No POLO select and no 'Polo' text. #VAGA is enabled and has 2 options (1/200.00, 2/150.00), labelled 'Cargo'. 'Cargo Escolhido' appears on confirmacao, realizada and pix. Delegado shows R$ 200,00 everywhere and its 158-char Pix code contains 5406200.00. Oficial Investigador shows R$ 150,00 and its code contains 5406150.00. The other value never appears. The chosen cargo is restored when the user goes back to dados-inscricao (VAGA=1). minhas-inscricoes shows 'Cargo' and the correct value. No JS page errors. All test records were deleted from inscricoes, cadastros, registrations and pix_* collections.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "/api/admin/dashboard/kpis", "issue": "valor_unit is still the constant VALOR_INSCRICAO=150 and does not depend on the cargo. cpf_to_valor is keyed by CPF only, so a CPF with both cargos is counted once, using the value of whichever document is read last. This only affects display."},
+      {"endpoint": "/api/admin/settings", "issue": "valor_inscricao in the DB is still 225.0 (stale). Pix ignores it, but the admin UI may show it."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [{"screen": "confirmacao", "issues": ["'Estado da Prova' shows 'São Paulo' and the city shows AMERICANA/SP although the contest is in Amapá. The user said exam cities will be sent later, so this is noted only."]}]
+  },
+  "test_report_links": ["/app/backend/tests/test_cargo_pcap.py", "/app/test_reports/pytest/pytest_cargo.xml"],
+  "action_items": ["Optional: make KPI valor_unit/settings valor_inscricao consistent with per-cargo fees", "Later: update UF_PROVA/MUNICIPIO_PROVA to Amapá cities when the user provides them"],
+  "critical_code_review_comments": ["pix/generate: the cargo_codigo from the client takes precedence over the cargo stored in the inscription. That is fine because both prices are public, but a client can choose the cheaper cargo's Pix for a Delegado inscription. Consider preferring the stored inscription cargo when cpf and cargo do not match.", "admin_routes.py is 1983 lines and should be split.", "Legacy test files (test_valor_150.py, test_taxa_120.py) are outdated: they assert 150 for cargo '03' and overwrite pix_key settings. Delete them or update them."],
+  "updated_files": ["/app/backend/tests/test_cargo_pcap.py"],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "seed_data_creation": "Test CPFs 52998224725 (cargo 1) and 11144477735 (cargo 2) were created and then deleted.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "To run the flow, generically fill the required selects and radios on inscricao, use DOC_TIPO=RG with 1x1 PNG uploads, then select [data-testid=select-vaga] '1' or '2'. On dados-inscricao, also check the checkboxes that have no id (the termo) before clicking btn-cadastrar. Then click btn-confirmar-inscricao to reach inscricao-realizada. Labels are uppercased with CSS, so compare text case-insensitively. Note that 'CONCURSO' contains 'CURSO'. Do not change admin pix_key: it is configured as real data."
+}
