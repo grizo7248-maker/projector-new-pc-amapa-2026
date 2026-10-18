@@ -97,6 +97,12 @@ for p in ['inscricao.html', 'dados-inscricao.html', 'confirmacao.html', 'inscric
         a1 = t.index('</script>', a0) + len('</script>')
         t = t[:a0] + open(HB + '/cargo_pcap.html', encoding='utf-8').read() + t[a1:]
         t = t.replace('<label class="description">Curso</label>', '<label class="description">Cargo</label>', 1)
+        t, n = re.subn(r'(<select class="select" data-testid="select-municipio-prova" id="MUNICIPIO_PROVA" name="MUNICIPIO_PROVA" required="">).*?</select>', r'\1\n<option value="MACAPA/AP" data-uf="AP" selected="">MACAPÁ</option>\n</select>', t, count=1, flags=re.S)
+        assert n == 1
+        t = t.replace('<input type="hidden" id="UF_PROVA" name="UF_PROVA" value="SP">', '<input type="hidden" id="UF_PROVA" name="UF_PROVA" value="AP">')
+        t = t.replace("function syncUf(){ var o = mp && mp.options[mp.selectedIndex]; if(uf) uf.value = (o && o.getAttribute('data-uf')) || 'SP'; }", "function syncUf(){ if(mp && !mp.value){ mp.value='MACAPA/AP'; } var o = mp && mp.options[mp.selectedIndex]; if(uf) uf.value = (o && o.getAttribute('data-uf')) || 'AP'; }")
+        assert "mp.value='MACAPA/AP'" in t
+    t = t.replace("({'SP':'São Paulo','DF':'Distrito Federal','MS':'Mato Grosso do Sul','PR':'Paraná','MG':'Minas Gerais'}[d.UF_PROVA]", "({'AP':'Amapá'}[d.UF_PROVA]")
     if p == 'inscricao.html':
         a0 = t.index('<fieldset class="vn-quest" data-testid="questionario-fieldset">')
         a1 = t.index('</fieldset>', a0) + len('</fieldset>')
