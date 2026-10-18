@@ -1,0 +1,23 @@
+{
+  "summary": "Checked that the page background is the same color (#f2f2f2) everywhere. First run FAILED: the html element was still white rgb(255,255,255) on inscricao, dados-inscricao, confirmacao, inscricao-realizada and pagamento-pix at both 1920 and 390. Body was correct (242). Cause: each of these 5 pages has its own inline <style> 'html,body{margin:0!important;padding:0!important;background:#fff!important}'. That rule loads after pages.css, and the new 'html{...}' rule in pages.css has the same weight (specificity 0,0,1), so the inline rule won. Tester fixed it with one change to the selector in pages.css (line 43): added 'html:not(#vn_a):not(#vn_b):not(#vn_c)'. After the fix, html and body are both rgb(242,242,242) on all 6 flow pages at 1920x800 and 390x844. On termos.html, html is transparent and body is 242; the browser then paints the whole page with the body color, so it looks the same. Earlier mobile fixes still hold at 390 on every flow page: no .periodoInscricoes, no .vn-sub, h3.vn-keep is 21px. The termos footer is static at 390 and fixed at 1920. Full flow termos -> Inscrever-se -> inscricao (filled form and uploaded documents) -> Continuar -> dados-inscricao works.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "html background on 5 flow pages", "issue": "Inline <style> html,body{background:#fff!important} overrode the pages.css html rule. FIXED by tester with a more specific selector in pages.css", "selector": "html", "priority": "MEDIUM (fixed)"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional cleanup: remove 'background:#fff !important' from the inline html,body style in inscricao, dados-inscricao, confirmacao, inscricao-realizada and pagamento-pix.html. Not required, because pages.css now wins.",
+    "Optional: bump the pages.css cache version (it is still ?v=11) so returning users get the fix."
+  ],
+  "critical_code_review_comments": ["The inline html,body background:#fff!important rules in the flow pages conflict with the shared theme; keep the background in a single place."],
+  "updated_files": ["/app/frontend/public/cesgranrio/pages.css"],
+  "success_rate": {"backend": "N/A", "frontend": "100% after fix"},
+  "seed_data_creation": "One test registration submitted (TEST Usuario Silva, test_bg@example.com)",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "When running mobile checks, set the 390 viewport BEFORE navigating: mobile-clean.js only acts at page load. Termos uses networkidle, which times out, so use domcontentloaded. To submit inscricao: type the CEP first (the CEP lookup clears the address fields), then fill the address and upload the DOC_FRENTE and DOC_VERSO files."
+}
