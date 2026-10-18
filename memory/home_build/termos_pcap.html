@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Termos de Inscrição - Concurso Polícia Civil do Amapá 2026 | Cesgranrio</title>
+<link rel="shortcut icon" href="/cesgranrio/simbolo.png" type="image/png">
+<link rel="stylesheet" href="/cesgranrio/fonts.css?v=17">
+<style>
+html.vn-wait body{opacity:0}body{transition:opacity .15s ease;margin:0;background:#f4f6fa;font-family:Montserrat,"Helvetica Neue",Arial,sans-serif;color:#333}
+.tm-wrap{max-width:1170px;margin:0 auto;padding:40px 20px 120px}
+.tm-card{background:#fff;box-shadow:0 2px 10px rgba(24,41,90,.12);display:grid;grid-template-columns:260px 1fr}
+.tm-side{background:#18295a;color:#fff;padding:34px 28px}
+.tm-side h3{font-size:13px;letter-spacing:1px;margin:0 0 6px;color:#0aa0de}
+.tm-side p{margin:0 0 22px;font-size:15px;font-weight:600;line-height:1.4}
+.tm-main{padding:34px 36px}
+.tm-main h1{font-size:26px;color:#18295a;margin:0 0 6px;font-weight:700}
+.tm-main .tm-sub{color:#0aa0de;font-size:13px;font-weight:700;letter-spacing:.5px;margin:0 0 20px;text-transform:uppercase}
+.tm-main p{font-size:13px;line-height:22px;margin:0 0 12px}
+.termos-aceite{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:13px;line-height:21px;color:#333;padding:16px 18px;background:#f4f6fa;border-left:4px solid #0aa0de;margin:18px 0 0}
+.termos-aceite input{width:18px;height:18px;margin:2px 0 0;flex-shrink:0;accent-color:#0aa0de}
+.termos-acoes{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0 0}
+.termos-btn{display:inline-block;min-width:170px;text-align:center;padding:14px 28px;background:#0aa0de;color:#fff!important;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;text-decoration:none!important;border:2px solid #0aa0de;opacity:.55;pointer-events:none;cursor:not-allowed;transition:opacity .2s,background-color .2s}
+.termos-btn:hover{background:#0889bf}
+.termos-btn--outline{background:#fff;color:#0aa0de!important;opacity:1;pointer-events:auto;cursor:pointer}
+.termos-btn--outline:hover{background:#eaf6fc}
+@media(max-width:767px){.tm-wrap{padding:20px 10px 80px}.tm-card{grid-template-columns:1fr}.tm-side{padding:22px 18px}.tm-side p{margin-bottom:14px}.tm-main{padding:22px 16px}.tm-main h1{font-size:21px}.termos-btn{flex:1 1 100%;min-height:48px}.termos-aceite{padding:14px}}
+</style>
+<script>document.documentElement.classList.add("vn-wait");setTimeout(function(){document.documentElement.classList.remove("vn-wait")},2500);</script>
+</head>
+<body>
+<section id="conteudoPrincipal" class="tm-wrap">
+ <article class="tm-card" data-testid="termos-card">
+  <aside class="tm-side">
+   <h3>INSCRIÇÕES</h3><p>22/09 a 19/10/2026</p>
+   <h3>VAGAS</h3><p>Cadastro de reserva<br>Delegado: 102<br>Oficial Investigador: 294</p>
+   <h3>SALÁRIOS</h3><p>Até R$ 31.439,06</p>
+  </aside>
+  <div class="tm-main">
+   <h1>Termos de Inscrição</h1>
+   <p class="tm-sub">Concurso Polícia Civil do Amapá 2026</p>
+   <p>Antes de prosseguir com sua inscrição no Concurso Polícia Civil do Amapá 2026, leia atentamente os termos abaixo e confirme o aceite para continuar.</p>
+   <p><strong>Prazo final:</strong> 19/10/2026, às 23h59.</p>
+   <label class="termos-aceite" data-testid="termos-aceite-label">
+    <input id="termos" name="aceito_termos" data-testid="termos-checkbox" type="checkbox" value="1">
+    <span>Declaro que li e concordo com os termos do Edital do Concurso Polícia Civil do Amapá 2026, assim como aceito como foro para resolução de conflitos a mediação e arbitragem (Lei Federal nº 9.307/1996).</span>
+   </label>
+   <div class="termos-acoes">
+    <a aria-disabled="true" href="/inscricao.html" id="bt-continuar" data-testid="btn-continuar-termos" class="termos-btn">Continuar</a>
+    <a id="btn-voltar-termos" data-testid="btn-voltar-termos" href="/" class="termos-btn termos-btn--outline">Voltar</a>
+   </div>
+  </div>
+ </article>
+</section>
+<script>
+(function(){
+  var cb=document.getElementById('termos'),bt=document.getElementById('bt-continuar');
+  function sync(){var on=cb.checked;bt.style.opacity=on?'1':'.55';bt.style.pointerEvents=on?'auto':'none';bt.style.cursor=on?'pointer':'not-allowed';bt.setAttribute('aria-disabled',on?'false':'true');}
+  cb.addEventListener('change',sync);sync();
+  try {
+    var v = localStorage.getItem('visitor_id');
+    if(!v){ v = 'v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,10); localStorage.setItem('visitor_id', v); }
+    fetch('/api/track/access', {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ page: window.location.pathname, user_agent: navigator.userAgent, extra: { visitor_id: v } })}).catch(function(){});
+  } catch(e) {}
+})();
+</script>
+<script src="/seduc/seduc-theme.js?v=17"></script>
+</body>
+</html>

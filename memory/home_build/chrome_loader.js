@@ -1,8 +1,8 @@
 (function(){
-var V='16';
+var V='17';
 var P=location.pathname;
 var MINHAS=/\/(inscricao-realizada|pagamento-pix|minhas-inscricoes)(\.html)?\/?$/.test(P);
-var BASE=':host{all:initial;display:block;font-family:"Open Sans",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.42857;color:#333;text-align:left}'+
+var BASE=':host{all:initial;display:block;font-family:Montserrat,Helvetica,Arial,sans-serif;font-size:14px;line-height:1.42857;color:#333;text-align:left}'+
 '.vn-wrap{font-size:14px}'+
 '.vn-minhas{display:inline-flex;align-items:center;gap:7px;background:#d9534f;color:#fff!important;text-decoration:none!important;font:700 12px "Open Sans",Arial,sans-serif;text-transform:uppercase;padding:10px 14px;border-radius:2px;white-space:nowrap}'+
 '.vn-minhas:hover{background:#c9302c}'+
@@ -11,14 +11,14 @@ var BASE=':host{all:initial;display:block;font-family:"Open Sans",Helvetica,Aria
 '.vn-minhas-desk{padding:8px 12px!important;letter-spacing:0!important}@media(min-width:992px){.vn-minhas-box{display:none}}@media(max-width:991px){.vn-minhas-desk{display:none!important}}';
 function fontsLink(){
  if(document.getElementById('vn-fonts'))return;
- var l=document.createElement('link');l.id='vn-fonts';l.rel='stylesheet';l.href='/vunesp/fonts.css?v='+V;document.head.appendChild(l);
+ var l=document.createElement('link');l.id='vn-fonts';l.rel='stylesheet';l.href='/cesgranrio/fonts.css?v='+V;document.head.appendChild(l);
 }
 function host(id,html,atTop,extra){
  var h=document.createElement('div');h.id=id;
  h.style.cssText='display:block;width:100%;position:relative;z-index:'+(atTop?'9999':'100')+';visibility:hidden;';
  if(atTop)document.body.insertBefore(h,document.body.firstChild);else document.body.appendChild(h);
  var r=h.attachShadow({mode:'open'});
- r.innerHTML='<link rel="stylesheet" href="/vunesp/chrome.css?v='+V+'"><style>'+BASE+(extra||'')+'</style><div class="vn-wrap">'+html+'</div>';
+ r.innerHTML='<link rel="stylesheet" href="/cesgranrio/chrome.css?v='+V+'"><style>'+BASE+(extra||'')+'</style><div class="vn-wrap">'+html+'</div>';
  var ln=r.querySelector('link');ln.addEventListener('load',function(){h.style.visibility='visible';if(atTop)document.documentElement.classList.remove('vn-wait');});
  ln.addEventListener('error',function(){h.remove();document.documentElement.classList.remove('vn-wait');});
  setTimeout(function(){if(ln.sheet)h.style.visibility='visible';},2500);
@@ -36,7 +36,7 @@ function build(parts){
  host('vunesp-footer-host',parts.f,false,'#rodape{margin-top:40px}');
 }
 function go(){
- fetch('/vunesp/parts.json?v='+V).then(function(r){return r.json();}).then(build).catch(function(){document.documentElement.classList.remove('vn-wait');});
+ fetch('/cesgranrio/parts.json?v='+V).then(function(r){return r.json();}).then(build).catch(function(){document.documentElement.classList.remove('vn-wait');});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();
 })();

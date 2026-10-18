@@ -1,0 +1,28 @@
+
+*{box-sizing:border-box}a{text-decoration:none}
+.cg-h,.cg-f{font-family:Montserrat,"Helvetica Neue",Arial,sans-serif}
+.cg-in{max-width:1170px;margin:0 auto;padding:0 20px;position:relative}
+.cg-top{background:#18295a;height:30px;display:flex;align-items:center}.cg-top>.cg-in{width:100%}
+.cg-top-l{display:flex;gap:16px;overflow:hidden;white-space:nowrap}
+.cg-top-l a{font-size:11px;font-weight:700;letter-spacing:.5px;line-height:30px}
+.cg-bar{background:#0aa0de}
+.cg-bar .cg-in{display:flex;align-items:center;justify-content:space-between;min-height:78px}
+.cg-logo img{height:34px;width:auto;display:block}
+.cg-nav{display:flex;gap:26px;align-items:center}
+.cg-nav a{color:#fff;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:opacity .2s}
+.cg-nav a:hover{opacity:.75}
+.cg-nav a[title="Área do Candidato"]{border:1px solid #fff;padding:10px 22px}
+.cg-title{background:#0aa0de;border-top:1px solid rgba(255,255,255,.25)}
+.cg-title .cg-in{color:#fff;font-size:22px;font-weight:600;padding-top:14px;padding-bottom:16px}
+.vn-minhas{background:#18295a!important}.vn-minhas:hover{background:#0f1c40!important}
+.vn-minhas-box{top:51px!important;transform:none!important}
+.cg-f{background:#18295a;color:#c9d3ea;margin-top:40px}
+.cg-fgrid{display:grid;grid-template-columns:1.2fr repeat(4,1fr);gap:24px;padding-top:44px;padding-bottom:28px}
+.cg-fbrand img{width:90px;height:auto}
+.cg-fcol h4{color:#fff;font-size:13px;font-weight:700;margin:0 0 12px;letter-spacing:.5px}
+.cg-fcol a{display:block;color:#c9d3ea;font-size:11px;font-weight:600;line-height:24px}
+.cg-lgpd{font-size:12px;line-height:20px;padding-bottom:26px}
+.cg-lgpd strong{color:#fff}
+.cg-copy{background:#0f1c40;font-size:11px;padding:14px 0;color:#9fb0d6;letter-spacing:.3px}
+@media(max-width:991px){.cg-nav{display:none}.cg-fgrid{grid-template-columns:1fr 1fr}.cg-fbrand{grid-column:1/-1}}
+@media(max-width:767px){.cg-top-l{gap:10px}.cg-top-l a{font-size:9px}.cg-bar .cg-in{min-height:64px}.cg-logo img{height:28px}.cg-title .cg-in{font-size:17px}.vn-minhas-box{top:44px!important}}
