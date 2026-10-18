@@ -241,7 +241,7 @@ def build_inscricao_email_html(*, nome: str, cpf: str, protocolo: str, cargo: st
     rows += _row("Nome:", nome or "-")
     rows += _row("CPF:", cpf or "-")
     if cargo:
-        rows += _row("Curso:", cargo)
+        rows += _row("Cargo:", cargo)
     rows += _row("Vestibular:", f"{CONCURSO_NOME} - {EDITAL}")
     rows += _row("Valor da inscrição:", _fmt_valor(valor))
     primeiro = escape(nome.split()[0].capitalize()) if (nome or "").strip() else "candidato(a)"
@@ -273,7 +273,7 @@ def build_pix_email_html(*, nome: str, cpf: str, cargo: str, valor, pix_code: st
     rows = _row("Nome:", nome or "-")
     rows += _row("CPF:", cpf or "-")
     if cargo:
-        rows += _row("Curso:", cargo)
+        rows += _row("Cargo:", cargo)
     rows += _row("Valor:", _fmt_valor(valor))
     inner = (
         f'<p style="margin:0 0 14px;font-size:16px;color:#111">Olá, {escape((nome or "candidato(a)").split()[0] if nome else "candidato(a)")}!</p>'

@@ -1,0 +1,15 @@
+<div class="fgv-field"><label><span class="error">*</span> Cargo</label>
+<select class="select" data-testid="select-vaga" id="VAGA" name="VAGA" required="">
+<option selected="" value="">Informe o Cargo</option>
+<option value="1" data-price="200.00">DELEGADO DE POLÍCIA CIVIL - R$ 200,00</option>
+<option value="2" data-price="150.00">OFICIAL INVESTIGADOR DE POLÍCIA CIVIL - R$ 150,00</option>
+</select></div>
+<script>
+(function(){
+  function init(){
+    var vaga=document.getElementById('VAGA'); if(!vaga) return;
+    try{ var s=JSON.parse(localStorage.getItem('inscricao_dados')||'{}')||{}; if(s.VAGA && vaga.querySelector('option[value="'+s.VAGA+'"]')){ vaga.value=String(s.VAGA); vaga.dispatchEvent(new Event('change',{bubbles:true})); } }catch(e){}
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>

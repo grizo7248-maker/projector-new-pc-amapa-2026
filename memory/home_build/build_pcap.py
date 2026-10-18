@@ -106,6 +106,14 @@ for p in ['inscricao.html', 'dados-inscricao.html', 'confirmacao.html', 'inscric
     for a, b in REPL:
         t = t.replace(a, b)
     t = re.sub(r'<link rel="shortcut icon" href="data:[^"]*"[^>]*>', '<link rel="shortcut icon" href="/cesgranrio/simbolo.png" type="image/png">', t)
+    t = t.replace('Curso Escolhido', 'Cargo Escolhido').replace('<span class="k">Curso</span>', '<span class="k">Cargo</span>')
+    if p == 'dados-inscricao.html':
+        a0 = t.index('<div class="fgv-field"><label><span class="error">*</span> Polo universitário (cidade)</label>')
+        a1 = t.index('</script>', a0) + len('</script>')
+        t = t[:a0] + open(HB + '/cargo_pcap.html', encoding='utf-8').read() + t[a1:]
+        t = t.replace('<label class="description">Curso</label>', '<label class="description">Cargo</label>', 1)
+    if p == 'inscricao-realizada.html':
+        t = t.replace('var __v = 225;', "var __v = ({'1':200,'2':150})[String(d.__cargo_codigo || d.VAGA || '')] || 150;")
     open(PUB + '/' + p, 'w', encoding='utf-8').write(t)
     body = re.sub(r'data:[^"\')\s]{100,}', '', t)
     print(p, sorted(set(re.findall(r'(?i)vunesp(?!/pages)|unesp|vestibular', body))))
