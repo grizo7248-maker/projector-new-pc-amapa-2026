@@ -1,0 +1,23 @@
+{
+  "summary": "Mobile-clean v=3 checks. PASS: termos footer static at 390/412 (footer sits at doc bottom: top 1324 of 1373 docH, not overlapping mid-page); .periodoInscricoes and .vn-sub removed from DOM on all 6 pages at 390; no horizontal overflow; termos->Inscrever-se->inscricao works; desktop 1920 unchanged (inscricao per=1, vn-sub visible; termos footer still fixed). FAIL: font-size reduction NOT applied on mobile - h3.vn-keep computed 26px (expected 21), h2.tituloPagina 24px (expected 19), .blocoPadrao p on inscricao 15px (first one has inline style 14px; others 13.5 OK on confirmacao/realizada/pix).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "mobile-clean.js font-size rules", "issue": "Overridden by higher-specificity !important rules already in the pages, e.g. 'html body:not(#vn_a):not(#vn_b) h2.tituloPagina{font-size:24px!important}' (2 ID-level specificity) and similar ultra-specific rules for '.aocp-edital-card .aec-head h3' giving 26px. Plain 'h3.vn-keep' / 'h2.tituloPagina' selectors lose. Affects inscricao, dados-inscricao, confirmacao, inscricao-realizada, pagamento-pix.", "selector": "h3.vn-keep, h2.tituloPagina, .blocoPadrao p", "priority": "HIGH"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "In mobile-clean.js boost specificity, e.g. prefix with 'html body:not(#mc_a):not(#mc_b):not(#mc_c) ' for h3.vn-keep, h2.tituloPagina (and span), .blocoPadrao p etc., or set inline styles via JS (el.style.setProperty('font-size','21px','important')) which beats stylesheet !important. Note the first .blocoPadrao p on inscricao has inline style font-size:14px (needs JS setProperty or override with !important in stylesheet — stylesheet !important does beat non-important inline).",
+    "Re-verify at 390x844: h3.vn-keep 21px, h2.tituloPagina 19px, body p 13.5px."
+  ],
+  "critical_code_review_comments": ["Element removal relies on load + 1.5s/4s timeouts; if Angular re-renders later the elements would reappear (CSS display:none covers it, so OK)."],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "75%"},
+  "seed_data_creation": "",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Check computed fontSize of h3.vn-keep/h2.tituloPagina/.blocoPadrao p at 390x844 on inscricao.html; footer/removal/desktop already pass."
+}
