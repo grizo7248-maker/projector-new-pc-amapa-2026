@@ -138,4 +138,4 @@ for p in ['inscricao.html', 'dados-inscricao.html', 'confirmacao.html', 'inscric
     print(p, sorted(set(re.findall(r'(?i)vunesp(?!/pages)|unesp|vestibular', body))))
 import subprocess; subprocess.run(['python3', HB + '/build_termos.py'], check=True)
 print('ok')
-import subprocess; subprocess.run(['python3','/app/memory/home_build/inject_mobile.py'],check=True)
+import subprocess; subprocess.run(['python3','/app/memory/home_build/clean_legacy.py'],check=True); subprocess.run(['python3','/app/memory/home_build/inject_mobile.py'],check=True)

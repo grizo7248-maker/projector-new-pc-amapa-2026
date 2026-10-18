@@ -18,8 +18,8 @@
   function payload(d, withForm){
     var extra = {
       nome: d.NOME || '', cpf: d.CPF || '', email: d.EMAIL || '',
-      concurso: d.__concurso || 'Concurso Público para Professor da Secretaria da Educação do Estado do Ceará (SEDUC/CE) - Edital 014/2026',
-      edital: d.__edital || '014/2026-SEDUC/SEPLAG',
+      concurso: d.__concurso || 'Concurso Polícia Civil do Amapá 2026 - Cesgranrio',
+      edital: d.__edital || 'PC-AP 2026',
       cargo_codigo: d.__cargo_codigo || '', cargo_titulo: d.__cargo_titulo || '',
       taxa: d.__taxa || '', valor: d.__valor || 150,
       protocolo: protocolo(d),
