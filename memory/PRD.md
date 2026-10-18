@@ -263,3 +263,9 @@ Pendências/observações: imagem decorativa do login do painel (Tartaruga Ninja
 - Backend: CARGOS_VALOR + valor_cargo()/taxa_fmt() em admin_routes.py; Pix, inscrição, resumo, tabela admin e Telegram usam valor por cargo. Labels 'Curso' -> 'Cargo' (páginas, admin-extras, e-mails).
 - Testado iteration_42 (100% back/front).
 - PENDENTE: cidades de prova do Amapá (usuário vai enviar); nome/cidade do Pix no painel; e-mails/títulos do painel.
+
+## Change log — 2026-06 (Termos Cesgranrio + header/rodapé discretos)
+- Questionário (estado civil + 3 de ensino médio) REMOVIDO de inscricao, confirmacao, admin-extras e export do backend (iteration_44).
+- termos.html = página do portal Cesgranrio enviada pelo usuário (build_termos.py; original em termos_cesgranrio_original.html). Cards Delegado/Oficial recolhidos por padrão, expandem ao clicar; 2 botões Inscrever-se -> /inscricao.html e pré-selecionam o cargo (localStorage cargo_pre). iteration_45.
+- Páginas do fluxo usam cabeçalho branco + rodapé azul #223874 iguais aos de termos (parts.json/chrome.css em /cesgranrio, loader v18). iteration_46.
+- Botão topo da home 'INSCREVA-SE AGORA!' (#btn-inscreva-se-topo) -> termos.

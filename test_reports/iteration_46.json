@@ -1,0 +1,28 @@
+{
+  "summary": "Frontend test of the new discreet Cesgranrio header and footer on inscricao, dados-inscricao, confirmacao, inscricao-realizada, pagamento-pix and minhas-inscricoes, at 1920px and 390px. All requested checks passed. Header: every page renders #seduc-header-host (shadow DOM, white, 80px on desktop / 64px on mobile) with the logo-fundacao.png logo, which loads. Footer: every page renders #vunesp-footer-host with a #223874 bar showing the white logo and 'v 1.0.20261007.3'. No fixed or sticky elements are in the footer. None of the old header/footer elements are visible (#Topo, #TopoMobile, #__fgv_topbar, #Rodape, #__fgv_footer, #__cebraspe_footer_root, header/footer tags). Links: the logo, 'Avaliações e Concursos' and 'Área do Candidato' (on inscricao/dados/confirmacao) were clicked and go to /, / and /minhas-inscricoes.html. On realizada/pix/minhas, desktop shows the 'Minhas inscrições' button (it navigates correctly) and the hamburger is hidden. At 390px the hamburger is visible; clicking it opens the menu (aria-expanded true), and its link goes to /minhas-inscricoes.html. On mobile, the main buttons on inscricao, dados, confirmacao and realizada all end above the footer top, so nothing overlaps. scrollWidth is 390 on all 6 pages. End-to-end flow at 390px: termos (Delegado) -> inscricao -> dados (VAGA 1 'DELEGADO ... R$ 200,00' pre-selected) -> confirmacao -> inscricao-realizada -> pagamento-pix passed. It showed R$ 200,00, the correct name, CPF and cargo, and a QR code. Test records were deleted.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "Header on inscricao/dados-inscricao/confirmacao at 390px", "issue": "Only the logo shows. There is no hamburger, so 'Área do Candidato' cannot be reached from the header on mobile. This is the same behavior as termos.html (noted in iteration_45), so it is consistent but limiting.", "selector": "#seduc-header-host", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "minhas-inscricoes, pagamento-pix (loading state), inscricao-realizada on desktop", "issues": ["Short pages: the footer sits right after the content, leaving a large empty gray area below it (for example, the footer top is at 474px in a 1080px viewport on minhas-inscricoes). A sticky-footer layout (min-height:100vh flex column) would fix this. Cosmetic only."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: add the hamburger/Área do Candidato to the mobile header on the non-MINHAS pages (seduc-theme.js) for consistency.",
+    "Optional: push the footer to the bottom of the viewport on short pages."
+  ],
+  "critical_code_review_comments": [
+    "seduc-theme.js: the header link rewrite depends on exact string matches against parts.json markup ('<a href=# title=\"Área do Candidato\">'). It will silently break if build_pcap.py changes the attribute quoting.",
+    "The .vn-minhas CSS sets background #d9534f (red), but the button renders blue-gray because of an override. Dead or confusing style."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100% of requested checks"},
+  "seed_data_creation": "One inscription was created (CPF 390.533.447-05, 'TEST_ T1 HEADER'). It was deleted via admin DELETE /api/admin/inscriptions/{id} and /api/admin/cadastros/{cpf}, and leftover TEST_/CPF docs were removed from Mongo.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Header and footer live in shadow roots: query them with document.getElementById('seduc-header-host').shadowRoot or 'vunesp-footer-host'. Playwright locator('#seduc-header-host').locator(...) pierces the shadow root. Testids inside the header: header-minhas-inscricoes-desktop-btn, header-hamburger-btn, header-hamburger-menu, header-minhas-inscricoes-btn."
+}
