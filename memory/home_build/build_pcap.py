@@ -112,6 +112,16 @@ for p in ['inscricao.html', 'dados-inscricao.html', 'confirmacao.html', 'inscric
         a1 = t.index('</script>', a0) + len('</script>')
         t = t[:a0] + open(HB + '/cargo_pcap.html', encoding='utf-8').read() + t[a1:]
         t = t.replace('<label class="description">Curso</label>', '<label class="description">Cargo</label>', 1)
+    if p == 'inscricao.html':
+        a0 = t.index('<fieldset class="vn-quest" data-testid="questionario-fieldset">')
+        a1 = t.index('</fieldset>', a0) + len('</fieldset>')
+        t = t[:a0] + t[a1:]
+    if p == 'confirmacao.html':
+        t = re.sub(r'<div class="conf-row"><span class="conf-lbl">Estado civil</span>.*?</div>', '', t, count=1)
+        t = re.sub(r'<div class="conf-sec" data-testid="conf-sec-2">Ensino médio</div>(?:<div class="conf-row">.*?</div>){3}', '', t, count=1)
+        for k in ["  set('c-estado-civil', d.ESTADO_CIVIL || '');\n", "  set('c-tipo-em', d.TIPO_ENSINO_MEDIO || '');\n", "  set('c-uf-em', d.UF_ENSINO_MEDIO || '');\n", "  set('c-ano-em', d.ANO_ENSINO_MEDIO || '');\n"]:
+            assert k in t, k
+            t = t.replace(k, '')
     if p == 'inscricao-realizada.html':
         t = t.replace('var __v = 225;', "var __v = ({'1':200,'2':150})[String(d.__cargo_codigo || d.VAGA || '')] || 150;")
     open(PUB + '/' + p, 'w', encoding='utf-8').write(t)
