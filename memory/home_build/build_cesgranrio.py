@@ -47,3 +47,4 @@ s=re.sub(r'(</body>\s*</html>\s*)?$','',s)+extra+'</body></html>'
 open('/app/frontend/public/inicio.html','w',encoding='utf-8').write(s)
 print(len(s), len(re.findall(r'https?://(?!www\.w3\.org)',s)))
 for m in re.findall(r'.{60}https?://(?!www\.w3\.org).{60}',s)[:10]: print(m)
+import subprocess; subprocess.run(['python3','/app/memory/home_build/inject_mobile.py'],check=True)
