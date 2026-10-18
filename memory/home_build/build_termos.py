@@ -20,6 +20,7 @@ app-card-collapse .card-header{cursor:pointer}
 app-card-collapse .card-header-titulo i{display:inline-block;transition:transform .25s ease}
 app-card-collapse .card-header.expanded .card-header-titulo i{transform:rotate(180deg)}
 html,body{overflow-x:hidden}
+.evento-descricao,.evento-descricao .card-text{max-height:none!important;overflow:visible!important;-webkit-line-clamp:unset!important;display:block!important}
 </style>
 <div id=home-loader data-testid=home-loader role=status aria-live=polite><div class=spin></div><p>Carregando...</p></div>
 <script>

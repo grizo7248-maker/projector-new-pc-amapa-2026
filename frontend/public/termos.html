@@ -45,6 +45,7 @@ app-card-collapse .card-header{cursor:pointer}
 app-card-collapse .card-header-titulo i{display:inline-block;transition:transform .25s ease}
 app-card-collapse .card-header.expanded .card-header-titulo i{transform:rotate(180deg)}
 html,body{overflow-x:hidden}
+.evento-descricao,.evento-descricao .card-text{max-height:none!important;overflow:visible!important;-webkit-line-clamp:unset!important;display:block!important}
 </style>
 <div id=home-loader data-testid=home-loader role=status aria-live=polite><div class=spin></div><p>Carregando...</p></div>
 <script>
@@ -81,4 +82,4 @@ html,body{overflow-x:hidden}
   document.addEventListener('click', function(e){ var a=e.target.closest && e.target.closest('a'); if(!a) return; var h=a.getAttribute('href'); if(h==='#'||h===null&&!a.classList.contains('list-group-item')){ e.preventDefault(); } }, true);
 })();
 </script>
-<script src="/cesgranrio/mobile-clean.js?v=1"></script></body></html>
+<script src="/cesgranrio/mobile-clean.js?v=2"></script></body></html>

@@ -1,5 +1,5 @@
 P='/app/frontend/public/'
-TAG='<script src="/cesgranrio/mobile-clean.js?v=1"></script>'
+TAG='<script src="/cesgranrio/mobile-clean.js?v=2"></script>'
 for f in ['inicio','termos','inscricao','dados-inscricao','confirmacao','inscricao-realizada','pagamento-pix','minhas-inscricoes']:
     t=open(P+f+'.html',encoding='utf-8').read()
     if TAG not in t:

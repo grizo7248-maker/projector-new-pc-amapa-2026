@@ -1,0 +1,30 @@
+{
+  "summary": "Mobile a11y-button removal and layout check on all 8 public pages at iPhone 390x844 and Android 412x915 (mobile UA + touch, Chromium), plus desktop at 1920x800. BUG FOUND AND FIXED: on mobile the VLibras hand was still visible on /inicio.html (and '/') and on /termos.html. Cause: those pages render the wrapper as id='vlibras-access-wrapper', but mobile-clean.js only targeted the class .vlibras-access-wrapper. I added #vlibras-access-wrapper and [id^=\"vlibras\"] to both the CSS and the remove selector, and changed the script tag to ?v=2 on all 8 pages. Retest: no visible vlibras/userway/vw element and no small fixed button at the right edge on any page on either device. Desktop still shows the VLibras hand on inicio, termos, inscricao, dados, confirmacao, inscricao-realizada and pagamento-pix. minhas-inscricoes.html has no VLibras at all, on desktop either; it never had it. No page overflows sideways on mobile (scrollWidth equals the viewport). The termos footer does not cover content. The mobile E2E flow passed on Android UA: termos Inscrever-se (Delegado) -> inscricao -> dados (cargo preselected as DELEGADO DE POLÍCIA CIVIL) -> confirmacao -> inscricao-realizada (R$ 200,00) -> pagamento-pix (QR, R$ 200,00, Pix copia e cola). Test records for CPF 52998224725 were deleted (inscription and cadastro).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "mobile-clean.js", "issue": "Did not hide #vlibras-access-wrapper (an id, not a class) on inicio/termos. FIXED by the testing agent.", "selector": "#vlibras-access-wrapper", "priority": "HIGH (fixed)"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "termos.html mobile (390px)", "issues": ["The left info card text (Destinado ao provimento ...) is cut off after 'estabelecidas'. Desktop shows the full text ending in 'neste Edital.', so the card is probably clipped by max-height/overflow on mobile."]},
+      {"screen": "inicio.html mobile", "issues": ["The topbar row (.row-menu-inner/.topbar-col-left) is 18px wider than the viewport. A parent clips it, so there is no page scroll and all 5 labels (FUNDAÇÃO ... SOCIAL) are visible. This is cosmetic only."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: on mobile termos.html, show the full card description text (remove the max-height/overflow clipping)."
+  ],
+  "critical_code_review_comments": [
+    "mobile-clean.js only runs when matchMedia(max-width:991px) matches at load. Rotating the device or resizing does not re-check. This is acceptable for phones."
+  ],
+  "updated_files": [
+    "/app/frontend/public/cesgranrio/mobile-clean.js",
+    "/app/frontend/public/{inicio,termos,inscricao,dados-inscricao,confirmacao,inscricao-realizada,pagamento-pix,minhas-inscricoes}.html (mobile-clean.js?v=1 -> ?v=2)"
+  ],
+  "success_rate": {"backend": "N/A", "frontend": "100% after fix"},
+  "seed_data_creation": "The CPF 52998224725 inscription and cadastro were created through the UI and then deleted through the admin API.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "On mobile, dados-inscricao has UF_PROVA as a hidden input (AP). The Cadastrar button is enabled once input[name=termo] is checked. Use domcontentloaded. Detect a11y widgets with a broad check on id/class containing vlibras/uwy/userway or the [vw] attribute, not only class selectors. WebKit was not available; the iOS check used Chromium with an iPhone UA."
+}
