@@ -1,0 +1,28 @@
+{
+  "summary": "Frontend test of the new Cesgranrio /termos.html page, using Playwright on desktop (1920) and mobile (390). Every requested item passed. Both cards start collapsed (card-body height 0, chevron pointing down). cargo-toggle-1 expands cargo-detalhes-1 (salary R$ 31.439,06, requirements, fee R$ 200,00), the chevron rotates 180deg, and a second click collapses it back to 0. Card 2 behaves the same with R$ 7.327,04 / R$ 150,00. Clicking Inscrever-se does not toggle the card (an expanded card stays expanded and a collapsed card stays collapsed). It shows #home-loader, sets localStorage cargo_pre to 1 or 2, and goes to /inscricao.html. dados-inscricao pre-selects VAGA=1 (Delegado R$ 200,00) or VAGA=2 (Investigador R$ 150,00) and then clears cargo_pre. The page has no a[href^=http] and no external script or iframe in the source; the cloudflare beacon is injected by the preview proxy and is not in the file. 'Avaliações e Concursos' goes to /, 'Área do Candidato' goes to /minhas-inscricoes.html, and VOLTAR goes to /. Contato, edital, sidebar and '#' links stay on the page. Both visible INSCREVA-SE buttons on the home page lead to /termos.html. On mobile at 390px there is no horizontal scroll (scrollWidth 390), and the card toggles and buttons work. The full flow termos (Investigador) -> inscricao -> dados (VAGA 2 pre-selected) -> confirmacao -> inscricao-realizada -> pagamento-pix passed, with p-valor R$ 150,00, the correct cargo, name and CPF, and a QR code shown. Test records were deleted (inscription, cadastro, and TEST_ registrations/pix_generated).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "termos.html mobile header", "issue": "On <=768px the navbar-toggler (hamburger) has the class sf-hidden (display:none). Only the logo shows, so mobile users cannot reach 'Área do Candidato' or 'Avaliações e Concursos' from the header (the VOLTAR button still goes to /).", "selector": "button.navbar-toggler.sf-hidden", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "termos.html mobile", "issues": ["The footer bar is position:fixed and takes about 48px at the bottom of the viewport. Content scrolls under it but is still reachable.", "The event description box has max-height 150px with an internal scroll, so the text looks cut off at 'estabelecidas'. This matches the original saved layout; it is cosmetic only."]}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: make the mobile hamburger (.navbar-toggler) visible and wired to open the side menu in termos.html (build_termos.py), so mobile users can reach Área do Candidato.",
+    "Out of scope, FYI: the PIX copy-paste payload merchant name/city reads 'VESTIBULAR UNESP' / 'SAO PAULO'. Check whether this is intended for the Cesgranrio/PC-AP context."
+  ],
+  "critical_code_review_comments": [
+    "termos.html: the toggle uses e.stopPropagation() on a[data-cargo], plus a closest('a') guard in the header handler. That is correct.",
+    "The R$ values use &nbsp;, so exact-string checks need to normalize \\u00a0."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100% of requested checks"},
+  "seed_data_creation": "One inscription created with CPF 390.533.447-05 / name 'TEST_ T1 INVESTIGADOR'. It was deleted via the admin API, and TEST_ registrations and pix_generated docs were removed from Mongo.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "termos.html cards: [data-testid=cargo-toggle-N] and [data-testid=cargo-detalhes-N]; buttons #btn-inscrever-delegado and #btn-inscrever-investigador (data-cargo 1/2) store localStorage cargo_pre. On desktop use a:visible selectors for header links, because hidden mobile duplicates exist. Admin cleanup: DELETE /api/admin/inscriptions/{id} and /api/admin/cadastros/{cpf} (login with donas, see /app/memory/test_credentials.md)."
+}

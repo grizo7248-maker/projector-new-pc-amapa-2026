@@ -20,48 +20,32 @@ orig = open(HB + '/cesgranrio_original.html', encoding='utf-8', errors='ignore')
 ff = [f for f in re.findall(r'@font-face\{[^}]*\}', orig) if 'Montserrat' in f]
 open(CG + '/fonts.css', 'w', encoding='utf-8').write(''.join(ff))
 
-TOP = [('FUNDAÇÃO', '#fff'), ('AVALIAÇÃO', '#4fb6ec'), ('EDUCAÇÃO', '#6cc04a'), ('CULTURAL', '#e8458b'), ('SOCIAL', '#f7941d')]
-header = ('<header class="cg-h">'
-          '<div class="cg-top"><div class="cg-in"><nav class="cg-top-l">' + ''.join('<a href=# style="color:%s">%s</a>' % (c, t) for t, c in TOP) + '</nav></div></div>'
-          '<div class="cg-bar"><div class="cg-in"><a href="/" class="cg-logo" title="Voltar para a página inicial"><img src="/cesgranrio/logo-branco.png" alt="Cesgranrio"></a>'
-          '<nav class="cg-nav"><a href="/">INÍCIO</a><a href=#>CONCURSOS</a><a href=# title="Área do Candidato">Área do Candidato</a></nav></div></div>'
-          '</header>')
-COLS = [('FUNDAÇÃO', ['SOBRE NÓS', 'HISTÓRIA', 'PUBLICAÇÕES', 'CONTATO']), ('AVALIAÇÃO', ['CONCURSOS', 'VESTIBULARES', 'CERTIFICAÇÃO']),
-        ('EDUCAÇÃO', ['FACULDADE', 'GRADUAÇÃO', 'MESTRADO E PÓS']), ('SOCIAL', ['APOSTANDO NO FUTURO', 'ATIVIDADES', 'PARCERIAS'])]
-footer = ('<footer id="rodape" class="cg-f"><div class="cg-in cg-fgrid">'
-          '<div class="cg-fbrand"><img src="/cesgranrio/simbolo.png" alt="Cesgranrio"></div>'
-          + ''.join('<div class="cg-fcol"><h4>%s</h4>%s</div>' % (h, ''.join('<a href=#>%s</a>' % i for i in it)) for h, it in COLS) +
-          '</div><div class="cg-in cg-lgpd"><strong>LGPD</strong> – A Fundação Cesgranrio, comprometida com os mais altos padrões de segurança e ética, adere estritamente à Lei Geral de Proteção de Dados do Brasil (Lei nº 13.709/18).</div>'
-          '<div class="cg-copy"><div class="cg-in">© FUNDAÇÃO CESGRANRIO — CONCURSO POLÍCIA CIVIL DO AMAPÁ 2026. Todos os direitos reservados.</div></div></footer>')
+header = ('<header class="cg-h"><div class="cg-in">'
+          '<a href="/" class="cg-logo" title="Voltar para a página inicial"><img src="/cesgranrio/logo-fundacao.png" alt="Fundação Cesgranrio"></a>'
+          '<nav class="cg-nav"><a href="/" class="cg-link cg-active">Avaliações e Concursos</a><a href=# class="cg-link">Contato</a><a href=# title="Área do Candidato">Área do Candidato</a></nav>'
+          '</div></header>')
+footer = ('<footer id="rodape" class="cg-f"><div class="cg-fbar"><img src="/cesgranrio/logo-fundacao-branco.png" alt="Fundação Cesgranrio"><span>v 1.0.20261007.3</span></div></footer>')
 open(CG + '/parts.json', 'w', encoding='utf-8').write(json.dumps({'h': header, 'f': footer}, ensure_ascii=False))
 css = '''
 *{box-sizing:border-box}a{text-decoration:none}
-.cg-h,.cg-f{font-family:Montserrat,"Helvetica Neue",Arial,sans-serif}
-.cg-in{max-width:1170px;margin:0 auto;padding:0 20px;position:relative}
-.cg-top{background:#18295a;height:30px;display:flex;align-items:center}.cg-top>.cg-in{width:100%}
-.cg-top-l{display:flex;gap:16px;overflow:hidden;white-space:nowrap}
-.cg-top-l a{font-size:11px;font-weight:700;letter-spacing:.5px;line-height:30px}
-.cg-bar{background:#0aa0de}
-.cg-bar .cg-in{display:flex;align-items:center;justify-content:space-between;min-height:78px}
-.cg-logo img{height:34px;width:auto;display:block}
+.cg-h,.cg-f{font-family:Roboto,"Helvetica Neue",Arial,sans-serif}
+.cg-h{background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.cg-in{max-width:1320px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;min-height:80px;position:relative}
+.cg-logo img{height:44px;width:auto;display:block}
 .cg-nav{display:flex;gap:26px;align-items:center}
-.cg-nav a{color:#fff;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:opacity .2s}
-.cg-nav a:hover{opacity:.75}
-.cg-nav a[title="Área do Candidato"]{border:1px solid #fff;padding:10px 22px}
-.cg-title{background:#0aa0de;border-top:1px solid rgba(255,255,255,.25)}
-.cg-title .cg-in{color:#fff;font-size:22px;font-weight:600;padding-top:14px;padding-bottom:16px}
-.vn-minhas{background:#18295a!important}.vn-minhas:hover{background:#0f1c40!important}
-.vn-minhas-box{top:51px!important;transform:none!important}
-.cg-f{background:#18295a;color:#c9d3ea;margin-top:40px}
-.cg-fgrid{display:grid;grid-template-columns:1.2fr repeat(4,1fr);gap:24px;padding-top:44px;padding-bottom:28px}
-.cg-fbrand img{width:90px;height:auto}
-.cg-fcol h4{color:#fff;font-size:13px;font-weight:700;margin:0 0 12px;letter-spacing:.5px}
-.cg-fcol a{display:block;color:#c9d3ea;font-size:11px;font-weight:600;line-height:24px}
-.cg-lgpd{font-size:12px;line-height:20px;padding-bottom:26px}
-.cg-lgpd strong{color:#fff}
-.cg-copy{background:#0f1c40;font-size:11px;padding:14px 0;color:#9fb0d6;letter-spacing:.3px}
-@media(max-width:991px){.cg-nav{display:none}.cg-fgrid{grid-template-columns:1fr 1fr}.cg-fbrand{grid-column:1/-1}}
-@media(max-width:767px){.cg-top-l{gap:10px}.cg-top-l a{font-size:9px}.cg-bar .cg-in{min-height:64px}.cg-logo img{height:28px}.cg-title .cg-in{font-size:17px}.vn-minhas-box{top:44px!important}}
+.cg-link{color:#4e5f8f;font-size:16px;font-weight:500;text-transform:uppercase;padding:6px 8px;position:relative}
+.cg-link:before{content:"";position:absolute;left:0;bottom:-4px;height:3px;width:0;background:#4e5f8f;transition:width .3s ease}
+.cg-link:hover:before,.cg-active:before{width:100%}
+.cg-nav a[title="Área do Candidato"],.vn-minhas-desk{background:#4e5f8f!important;color:#fff!important;font:700 13px Roboto,Arial,sans-serif!important;text-transform:uppercase;padding:10px 14px!important;border-radius:4px!important;letter-spacing:0!important;transition:background-color .2s}
+.cg-nav a[title="Área do Candidato"]:hover,.vn-minhas-desk:hover{background:#42517a!important}
+.vn-minhas{background:#4e5f8f!important;border-radius:4px!important}.vn-minhas:hover{background:#42517a!important}
+.vn-minhas-box{top:22px!important;transform:none!important}
+.cg-f{margin-top:40px}
+.cg-fbar{background:#223874;min-height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;flex-wrap:wrap;gap:8px}
+.cg-fbar img{max-height:26px;width:auto;display:block}
+.cg-fbar span{color:#fff;font-size:14px;font-style:italic}
+@media(max-width:991px){.cg-nav{display:none}}
+@media(max-width:767px){.cg-in{min-height:64px;padding:0 14px}.cg-logo img{height:36px}.vn-minhas-box{top:14px!important}.cg-fbar{padding:10px 16px;justify-content:center}.cg-fbar img{max-height:22px}}
 '''
 open(CG + '/chrome.css', 'w', encoding='utf-8').write(css)
 
@@ -69,7 +53,8 @@ open(CG + '/chrome.css', 'w', encoding='utf-8').write(css)
 js = open(BK + '/seduc-theme.js', encoding='utf-8').read()
 js = js.replace("var V='16';", "var V='17';").replace('/vunesp/fonts.css', '/cesgranrio/fonts.css').replace('/vunesp/chrome.css', '/cesgranrio/chrome.css').replace('/vunesp/parts.json', '/cesgranrio/parts.json')
 js = js.replace('.vn-minhas-box{position:absolute;right:15px;top:50%;', '.vn-minhas-box{position:absolute;right:15px;top:50%;')
-js = js.replace('font-family:"Open Sans",Helvetica,Arial,sans-serif;font-size:14px', 'font-family:Montserrat,Helvetica,Arial,sans-serif;font-size:14px')
+js = js.replace("if(MINHAS){hh=hh.replace(", "if(!MINHAS){hh=hh.replace('<a href=# title=\"Área do Candidato\">','<a href=\"/minhas-inscricoes.html\" title=\"Área do Candidato\">');}if(MINHAS){hh=hh.replace(", 1)
+js = js.replace('font-family:"Open Sans",Helvetica,Arial,sans-serif;font-size:14px', 'font-family:Roboto,Helvetica,Arial,sans-serif;font-size:14px').replace("var V='17';", "var V='18';")
 open(PUB + '/seduc/seduc-theme.js', 'w', encoding='utf-8').write(js)
 open(HB + '/chrome_loader.js', 'w', encoding='utf-8').write(js)
 
@@ -98,7 +83,7 @@ REPL = [
     ('fins deste vestibular', 'fins deste concurso'),
     ('concursos pï¿½blicos, vestibular', 'concursos públicos'),
     ('/vunesp/pages.css?v=8', '/vunesp/pages.css?v=9'),
-    ('/seduc/seduc-theme.js?v=16', '/seduc/seduc-theme.js?v=17'),
+    ('/seduc/seduc-theme.js?v=16', '/seduc/seduc-theme.js?v=18'),
     ('border-top-color:#d9534f;', 'border-top-color:#0aa0de;'),
 ]
 for p in ['inscricao.html', 'dados-inscricao.html', 'confirmacao.html', 'inscricao-realizada.html', 'pagamento-pix.html', 'minhas-inscricoes.html']:
