@@ -843,6 +843,7 @@ h2.tituloPagina span { border-bottom:0 !important; text-indent:0 !important; pad
     }catch(_){}
     var has = false;
     try{ var e = JSON.parse(localStorage.getItem('inscricao_dados')||'{}'); has = !!(e && e.CPF) && String(e.CPF).replace(/\D/g,'') === cpf; }catch(_){}
+    if(cpf && has){ try{ history.replaceState(null,'',window.location.pathname); }catch(_){} }
     if(cpf && !has){
       window.__AOCP_HYDRATING__ = true;
       fetch(window.location.origin + '/api/inscricao/resumo/' + cpf)
