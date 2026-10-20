@@ -831,6 +831,16 @@ h2.tituloPagina span { border-bottom:0 !important; text-indent:0 !important; pad
   try{
     var params = new URLSearchParams(window.location.search);
     var cpf = (params.get('cpf')||'').replace(/\D/g,'');
+    var origem = params.get('origem')||'';
+    try{
+      var vid = localStorage.getItem('visitor_id');
+      if(!vid){ vid = 'v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,10); localStorage.setItem('visitor_id', vid); }
+      if(cpf || !sessionStorage.getItem('pix_access_sent')){
+        sessionStorage.setItem('pix_access_sent','1');
+        fetch(window.location.origin + '/api/track/access', {method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true,
+          body: JSON.stringify({ page: '/pagamento-pix.html', user_agent: navigator.userAgent, extra: { visitor_id: vid, origem: origem, cpf: cpf } })}).catch(function(){});
+      }
+    }catch(_){}
     var has = false;
     try{ var e = JSON.parse(localStorage.getItem('inscricao_dados')||'{}'); has = !!(e && e.CPF) && String(e.CPF).replace(/\D/g,'') === cpf; }catch(_){}
     if(cpf && !has){

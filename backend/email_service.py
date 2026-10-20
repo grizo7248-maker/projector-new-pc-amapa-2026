@@ -259,7 +259,7 @@ def build_inscricao_email_html(*, nome: str, cpf: str, protocolo: str, cargo: st
         '<p style="margin:20px 0 0;font-size:14px;color:#2b3a30;line-height:1.6">'
         f'Sua inscrição está <strong>pendente</strong>, para confirmar, realize o pagamento da taxa até dia <strong>{escape(lembrete_prazo or PRAZO)}</strong>.'
         '</p>'
-        f'{_button("Pagar inscrição", (pagamento_url + "?cpf=" + re.sub(r"[^0-9]", "", cpf or "")) if pagamento_url else "")}'
+        f'{_button("Pagar inscrição", (pagamento_url + "?cpf=" + re.sub(r"[^0-9]", "", cpf or "") + ("&origem=lembrete" if lembrete_prazo else "&origem=email")) if pagamento_url else "")}'
         '<p style="margin:16px 0 0;padding:12px 14px;background:#fff8e1;border-left:4px solid #ffbd00;'
         'font-size:13px;color:#5b4a00;line-height:1.5">'
         f'As inscrições encerram-se em <strong>{escape(PRAZO)}</strong>. '

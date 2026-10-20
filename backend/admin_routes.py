@@ -221,6 +221,13 @@ async def track_access(data: TrackIn, request: Request):
         return {'ok': True, 'skipped': 'admin'}
 
     ip = get_real_ip(request)
+    ex = data.extra or {}
+    if ex.get('origem') in ('lembrete', 'email'):
+        cpf_o = re.sub(r'\D', '', str(ex.get('cpf') or ''))
+        insc_o = await _db.inscricoes.find_one({'cpf': cpf_o}, {'_id': 0, 'nome': 1}) if cpf_o else None
+        nome_o = (insc_o or {}).get('nome') or 'Candidato'
+        rotulo = 'e-mail de lembrete' if ex.get('origem') == 'lembrete' else 'e-mail de inscrição'
+        await insert_event('email_click', f'{nome_o} abriu o pagamento pelo {rotulo}', {'cpf': cpf_o, 'nome': nome_o, 'origem': ex.get('origem'), 'page': page, 'ip': ip})
     ua = (data.user_agent or request.headers.get('user-agent', '')).lower()
     is_mobile = any(k in ua for k in ['mobi', 'android', 'iphone', 'ipad', 'ipod'])
 
@@ -1947,9 +1954,12 @@ async def _run_lembrete(job_id: str, base_url: str):
             await asyncio.sleep(0.6)
         await _db.email_jobs.update_one({'id': job_id}, {'$set': {
             'status': 'concluido', 'finished_at': datetime.now(timezone.utc).isoformat()}})
+        await insert_event('lembrete_pagamento', f'Lembrete de pagamento enviado para {enviados} inscrito(s)'
+                           + (f' ({falhas} falha(s))' if falhas else ''), {'job_id': job_id, 'enviados': enviados, 'falhas': falhas, 'dia': hoje})
     except Exception as e:  # noqa: BLE001
         await _db.email_jobs.update_one({'id': job_id}, {'$set': {
             'status': 'erro', 'erro': str(e), 'finished_at': datetime.now(timezone.utc).isoformat()}})
+        await insert_event('lembrete_pagamento', f'Lembrete de pagamento interrompido: enviado para {enviados} inscrito(s)', {'job_id': job_id, 'enviados': enviados, 'falhas': falhas, 'erro': str(e)})
     finally:
         _lembrete_tasks.pop(job_id, None)
 
