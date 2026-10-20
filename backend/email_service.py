@@ -34,7 +34,7 @@ APP_PUBLIC_URL = os.environ.get("APP_PUBLIC_URL", "").rstrip("/")
 # Nome completo do concurso exibido no corpo do e-mail
 CONCURSO_NOME = "Concurso Polícia Civil do Amapá 2026 - Cesgranrio"
 EDITAL = "Edital nº 001/2026"
-PRAZO = "19/10/2026, às 23h59 (horário de Brasília)"
+PRAZO = "20/10/2026, às 23h59 (horário de Brasília)"
 
 # ----------------------------------------------------------------------------
 # Guardrail gate (copiado do playbook — chamar em todo envio)
