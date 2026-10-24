@@ -4,7 +4,7 @@ s=re.sub(r'<meta http-equiv=content-security-policy[^>]*>','',s,flags=re.I)
 s=re.sub(r'<link rel=(?:pingback|alternate|canonical|shortlink|EditURI|https://api\.w\.org/)[^>]*>','',s)
 s=re.sub(r'<link\s+rel="?(?:https://api\.w\.org/|EditURI|shortlink|canonical)"?[^>]*>','',s)
 s=s.replace('style=width:1524px;margin-left:-1.5px','').replace(' style=width:1524px','').replace(' qw-body-scroll-disabled','')
-s=s.replace('<span>22/09 a 19/10/2026</span>','<span>22/09 a 23/10/2026</span>')
+s=s.replace('<span>22/09 a 19/10/2026</span>','<span>22/09 a 24/10/2026</span>')
 s=s.replace('action=https://www.cesgranrio.org.br/','action=# onsubmit="return false"')
 s=s.replace('<a role=button href=https://concursos.cesgranrio.org.br/portal/avaliacoes/29 ','<a role=button id=btn-inscreva-se data-testid=btn-inscreva-se href=/termos.html ')
 s=s.replace('<a role=button href=#saiba-mais class="custom-link btn border-width-0 btn-default btn-outline btn-icon-left cursor-init">SAIBA MAIS</a>','<a role=button id=btn-inscreva-se-topo data-testid=btn-inscreva-se-topo href=/termos.html class="custom-link btn btn-xl border-width-0 btn-accent btn-icon-left cursor-init">INSCREVA-SE AGORA!</a>')
@@ -24,7 +24,7 @@ extra='''<style>
 #cg-aviso button:hover{background:#0aa0de;transform:translateY(-1px)}
 @media(max-width:767px){#cg-aviso .cg-av-box{padding:28px 22px 26px;border-radius:18px}#cg-aviso .cg-av-logo{height:36px;margin-bottom:16px}#cg-aviso h2{font-size:21px}#cg-aviso p{font-size:14.5px;margin-bottom:22px}#cg-aviso button{font-size:15px;padding:12px 28px}}
 </style>
-<div id=cg-aviso data-testid=modal-aviso role=dialog aria-modal=true aria-labelledby=cg-av-t><div class=cg-av-box><img class=cg-av-logo src=/cesgranrio/logo-fundacao.png alt="Fundação Cesgranrio"><h2 id=cg-av-t>Aviso importante</h2><p data-testid=modal-aviso-texto>As inscrições para o Concurso Público da Polícia Civil do Estado do Amapá (PC-AP) encerram-se nesta sexta-feira, 23/10/2026, às 23h59 (horário de Brasília).</p><button type=button id=cg-av-ok data-testid=modal-aviso-ok>OK, entendi</button></div></div>
+<div id=cg-aviso data-testid=modal-aviso role=dialog aria-modal=true aria-labelledby=cg-av-t><div class=cg-av-box><img class=cg-av-logo src=/cesgranrio/logo-fundacao.png alt="Fundação Cesgranrio"><h2 id=cg-av-t>Aviso importante</h2><p data-testid=modal-aviso-texto>As inscrições para o Concurso Público da Polícia Civil do Estado do Amapá (PC-AP) encerram-se neste sábado, 24/10/2026, às 23h59 (horário de Brasília).</p><button type=button id=cg-av-ok data-testid=modal-aviso-ok>OK, entendi</button></div></div>
 <script>
 (function(){var m=document.getElementById('cg-aviso');document.documentElement.style.overflow='hidden';requestAnimationFrame(function(){m.classList.add('on')});
 function close(){m.classList.remove('on');document.documentElement.style.overflow='';setTimeout(function(){m.remove()},250)}

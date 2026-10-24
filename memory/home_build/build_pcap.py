@@ -82,7 +82,7 @@ REPL = [
     ('Vestibular Unesp 2027', 'Concurso Polícia Civil do Amapá 2026'),
     ('atendimento@vunesp.com.br', 'atendimento@cesgranrio.org.br'),
     ('VNSP2514', 'PC-AP 2026'),
-    ('<b>20/10/2026</b>', '<b>23/10/2026</b>'),
+    ('<b>20/10/2026</b>', '<b>24/10/2026</b>'),
     ('fins deste vestibular', 'fins deste concurso'),
     ('concursos pï¿½blicos, vestibular', 'concursos públicos'),
     ('/vunesp/pages.css?v=8', '/cesgranrio/pages.css?v=11'),
